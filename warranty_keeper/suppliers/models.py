@@ -1,10 +1,7 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.core.validators import MinLengthValidator
 
 from phonenumber_field.modelfields import PhoneNumberField
-
-UserModel = get_user_model()
 
 
 class Supplier(models.Model):
@@ -21,11 +18,11 @@ class Supplier(models.Model):
         blank=False,
     )
 
-    phone_number = PhoneNumberField(
+    # TODO: To limit uploads only to png, svc and pictures at all.
+    logo = models.ImageField(
+        upload_to="logos/",
         null=True,
         blank=True,
-        unique=True,
-        help_text="Please enter a valid phone number, including country code.",
     )
 
     email = models.EmailField(
@@ -33,16 +30,16 @@ class Supplier(models.Model):
         blank=True,
     )
 
+    phone_number = PhoneNumberField(
+        null=True,
+        blank=True,
+        unique=True,
+        help_text="Please enter a valid phone number, including country code.",
+    )
+
     website = models.URLField(
         null=True,
         blank=True,
-    )
-
-    owner = models.ForeignKey(
-        to=UserModel,
-        on_delete=models.CASCADE,
-        null=False,
-        blank=False,
     )
 
     def __str__(self):

@@ -1,31 +1,12 @@
 :root {
-  /* Nord colors */
-  --black-color: #2a303c;
+  --black-color: #2e3440;
+  --green-color: #a3be8c;
   --white-color: #d8dee9;
-  --gray1-color: #3b4252;
-  --gray2-color: #606672;
-  --gray3-color: #6d8dad;
+  --grey-color: #373d49;
   --blue-color: #81a1c1;
-  --green-color: #89b482;
-  --red-color: #d57780;
-  --orange-color: #caaa6a;
+  --red-color: #bf616a;
   --yellow-color: #ebcb8b;
-  --pink-color: #e39a83;
-
-  --background-color: #373737;
-  --primary-color: #acbabf;
-  --secondary-color: #6c757d;
-  --text-color: #c0c0c2;
-  --text-error: #ff0000;
-
-  /* Old button colors */
-
-  --download-border: #f8f9fa;
-  --download-border-hover: #d3d4d5;
-
-  --delete-border: #dc3545;
-  --delete-border-hover: #bb2d3b;
-
-  --edit-border: #0d6efd;
-  --edit-border-hover: #0a58ca;
+  --purple-color: #b48ead;
+  --orange-color: #f7931a;
+  --darkblue-color: #7292b2;
 }

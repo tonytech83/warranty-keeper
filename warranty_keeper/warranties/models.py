@@ -2,11 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinLengthValidator
 
-from warranty_keeper.core.model_mixins import TimeStampedModel
-from warranty_keeper.warranties.validators import (
-    validate_mime_type,
-    validate_purchase_date,
-)
+
 from warranty_keeper.suppliers.models import Supplier
 
 
@@ -23,7 +19,7 @@ class Period(models.IntegerChoices):
     THIRTY_SIX_MONTHS = 36, "36 Months"
 
 
-class Warranty(TimeStampedModel, models.Model):
+class Warranty(models.Model):
     MAX_NAME_LENGTH = 100
     MIN_NAME_LENGTH = 2
 
@@ -36,7 +32,6 @@ class Warranty(TimeStampedModel, models.Model):
     )
 
     purchase_date = models.DateField(
-        validators=(validate_purchase_date,),
         null=False,
         blank=False,
     )
@@ -53,7 +48,6 @@ class Warranty(TimeStampedModel, models.Model):
 
     invoice_img = models.FileField(
         upload_to="invoices/",
-        validators=(validate_mime_type,),
         null=True,
         blank=True,
     )

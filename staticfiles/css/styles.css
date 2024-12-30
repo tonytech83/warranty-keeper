@@ -1,17 +1,8 @@
 @import "colors.css";
-@import "home.css";
 @import "nav.css";
-@import "profile.css";
-@import "stats.css";
-@import "buttons.css";
-@import "business.css";
-@import "table.css";
-@import "forms.css";
 @import "footer.css";
-@import "dashboard.css";
-@import "upload.css";
 @import "suppliers.css";
-@import "system-messages.css";
+@import "supplier-card.css";
 
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
@@ -25,7 +16,8 @@ html,
 body {
   height: 100%;
   margin: 0;
-  background: var(--gray2-color);
+  background: var(--black-color);
+  color: var(--white-color);
   font-family: "Montserrat", sans-serif;
 }
 
@@ -38,6 +30,8 @@ body {
 .content {
   flex: 1;
   padding: 20px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
+  border: 2px solid var(--white-color);
 }

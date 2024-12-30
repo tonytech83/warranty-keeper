@@ -2,13 +2,6 @@
   text-align: center;
   background: var(--gray1-color);
   padding: 10px 0;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 -5px 15px;
   color: var(--white-color);
-}
-
-@media (max-height: 1080px) {
-  .footer {
-      padding: 5px 0;
-      font-size: 16px;
-  }
 }

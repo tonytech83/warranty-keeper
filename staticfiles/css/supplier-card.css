@@ -1,0 +1,23 @@
+.supplier-card {
+  text-decoration: none !important;
+  width: 150px;
+  height: 150px;
+  border: 2px solid var(--red-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.supplier-logo img {
+  padding: 5px;
+  max-width: 100%;
+  height: auto;
+  display: block; 
+}
+
+.supplier-name {
+  margin: auto;
+  text-align: center;
+  font-size: 2rem;
+}

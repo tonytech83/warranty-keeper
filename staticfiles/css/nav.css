@@ -1,9 +1,9 @@
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 0 2%;
-  background: var(--gray1-color);
+  background: var(--black-color);
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   height: 40px;
 }
@@ -19,15 +19,7 @@ header {
   text-decoration: none;
 }
 
-.logo {
-  height: 40px;
-  width: 40px;
-  background: transparent;
-  /* color: var(--white-color); */
-}
-
-.nav-links-menu,
-.nav-links-user {
+.nav-links-menu {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -39,14 +31,7 @@ header {
   font-size: 18px;
 }
 
-.nav-links-user li {
-  display: inline-block;
-  padding: 0 2px;
-  font-size: 12px;
-}
-
-.nav-links-menu li a,
-.nav-links-user li a {
+.nav-links-menu li a {
   transition: all 0.3s ease 0s;
 }
 
@@ -57,9 +42,5 @@ header {
 .nav-links-menu li:hover {
   border-bottom: 2px solid var(--orange-color);
   font-size: 16px;
-  transition: all 0.3s ease 0s;
-}
-
-.nav-links-user li a:hover {
-  border-bottom: 1px solid var(--gray1-color);
+  transition: all 0.2s ease 0s;
 }

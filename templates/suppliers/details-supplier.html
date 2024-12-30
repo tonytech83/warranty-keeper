@@ -1,0 +1,18 @@
+{% extends "base/base.html" %} {% block main_content %}
+
+<div class="supplier-details-container">
+
+{% if object.logo %}
+<img class="logo" src="{{ supplier.logo.url }}" alt="{{ supplier.name }}" />
+{% endif%}
+
+<table>
+  {% include 'suppliers/partials/supplier-details-field.html' with supplier=object p_title='Name' value=object.name %}
+  {% include 'suppliers/partials/supplier-details-field.html' with supplier=object p_title='Email' value=object.email %}
+  {% include 'suppliers/partials/supplier-details-field.html' with supplier=object p_title='Phone number' value=object.phone_number %}
+  {% include 'suppliers/partials/supplier-details-field.html' with supplier=object p_title='Website' value=object.website %}
+</table>
+
+</div>
+
+{% endblock %}

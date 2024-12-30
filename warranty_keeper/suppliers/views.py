@@ -1,21 +1,34 @@
 from django.views import generic as views
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+
 
 from warranty_keeper.suppliers.models import Supplier
+from .forms import SupplierCreateForm, SupplierUpdateForm, SupplierDeleteForm
 
 
-class SupplierListView(LoginRequiredMixin, views.ListView):
+class SupplierListView(views.ListView):
     model = Supplier
     template_name = "suppliers/suppliers-list.html"
 
+class SupplierDetailsView(views.DetailView):
+    model = Supplier
+    template_name = "suppliers/details-supplier.html"
+
 
 class SupplierCreateView(views.CreateView):
-    pass
+    model = Supplier
+    form_class = SupplierCreateForm
+    template_name = "suppliers/create-supplier.html"
+    success_url = reverse_lazy("suppliers-list")
 
 
-class SupplierEditView(views.UpdateView):
-    pass
+class SupplierUpdateView(views.UpdateView):
+    model = Supplier
+    form_class = SupplierUpdateForm
+    template_name = "suppliers/update-supplier.html"
+    success_url = reverse_lazy("suppliers-list")
 
 
 class SupplierDeleteView(views.DeleteView):
-    pass
+    model = Supplier
+    form_class = SupplierDeleteForm

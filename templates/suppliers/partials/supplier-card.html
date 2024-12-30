@@ -1,0 +1,12 @@
+{% load static %}
+<a href="{% url 'supplier-details' supplier.id %}" class="supplier-card">
+  {% if supplier.logo %}
+  <div class="supplier-logo">
+    <img src="{{ supplier.logo.url }}" alt="{{ supplier.name }}" />
+  </div>
+  {% else %}
+  <div class="supplier-name">
+    <p>{{ supplier.name }}</p>
+  </div>
+  {% endif %}
+</a>

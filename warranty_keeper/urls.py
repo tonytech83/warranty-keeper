@@ -1,10 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include
 
+from django.conf.urls.static import static
+from django.conf import settings
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('warranty_keeper.common.urls')),
-    path('auth/', include('warranty_keeper.accounts.urls')),
     path('warranties/', include('warranty_keeper.warranties.urls')),
     path('suppliers/', include('warranty_keeper.suppliers.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

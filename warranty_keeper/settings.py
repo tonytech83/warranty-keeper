@@ -16,7 +16,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -24,9 +23,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "rest_framework",
+
+    # Other apps…
     "phonenumber_field",
-    "warranty_keeper.accounts",
+
+    # custom apps
+    "warranty_keeper.common",
     "warranty_keeper.warranties",
     "warranty_keeper.suppliers",
 ]
@@ -100,11 +102,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (BASE_DIR / "staticfiles",)
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'mediafiles'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-AUTH_USER_MODEL = "accounts.WarrantyKeeperUser"
-LOGIN_URL = reverse_lazy('login-user')
-LOGIN_REDIRECT_URL = reverse_lazy('dashboard')

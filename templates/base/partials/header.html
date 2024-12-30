@@ -2,41 +2,14 @@
 
 <nav>
   <ul class="nav-links-menu">
-    {% if request.user.is_authenticated %}
     <li class="link-item">
-      <a class="link-item-link" href="{% url 'dashboard' %}">Dashboard</a>
+      <a class="link-item-link" href="/">Dashboard</a>
     </li>
     <li class="link-item">
-      <a class="link-item-link" href="{% url 'warranty-list' %}">Waranties</a>
+      <a class="link-item-link" href="{% url 'warranties-list' %}">Warranties</a>
     </li>
     <li class="link-item">
-      <a class="link-item-link" href="{% url 'supplier-list' %}">Suppliers</a>
+      <a class="link-item-link" href="{% url 'suppliers-list' %}">Suppliers</a>
     </li>
-    {% else %}
-    <li class="link-item">
-      <a class="link-item-link" href="{% url 'login-user' %}">Login</a>
-    </li>
-    <li class="link-item">
-      <a class="link-item-link" href="{% url 'register-user' %}">Register</a>
-    </li>
-    {% endif %}
   </ul>
 </nav>
-
-{% if request.user.is_authenticated %}
-<ul class="nav-links-user">
-  <li class="link-item">
-    <span>WELCOME, </span>
-    <a class="link-item-link" href="#">{{request.user.email|upper}}</a>
-  </li>
-  <span class="delimiter">/<span>
-  <li>
-    <a class="link-item-link" href="{% url 'change-password' %}">CHANGE PASSWORD</a>
-  </ll>
-  <span class="delimiter">/<span>
-  <li>
-    <a class="link-item-link" href="{% url 'logout-user' %}">LOG OUT</a>
-  </ll>
-</ul>
-
-{% endif %}

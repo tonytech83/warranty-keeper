@@ -1,74 +1,13 @@
-{% extends 'base/base.html' %}
-{% load static %}
+{% extends "base/base.html" %} {% block main_content %}
 
-{% block main_content %}
+<div class=".supplier-card">
+  <a href="{% url 'supplier-create' %}">Create Supplier</a>
+</div>
 
-    <!-- Forms container-->
-    <div class="backdrop" style="display:none;" onclick="hideForm()"></div>
-
-    <!-- Hidden form for editing -->
-    {% include 'suppliers/partials/edit-form.html' %}
-
-    <!-- Hidden form for creating -->
-    {% include 'suppliers/partials/create-form.html' %}
-
-    <!-- Hidden form for deleting -->
-    {% include 'suppliers/partials/delete-form.html' %}
-
-    <div class="title-container">
-        <h4>Suppliers</h4>
-    </div>
-
-    <!-- define the URLs as data attributes -->
-    <div data-create-supplier-url="{% url 'create-supplier' %}"
-         data-edit-supplier-url="{% url 'edit-supplier' pk=0 %}"
-         data-delete-supplier-url="{% url 'delete-supplier' pk=0 %}"
-         hidden id="supplierUrls"></div>
-
-    <div class="suppliers-container">
-
-        <div>
-            {% include 'suppliers/partials/search.html' %}
-            {% if suppliers_exists %}
-                {% if supplier_list %}
-                    <!-- Handsontable container-->
-                    <div id="handsontable-view">
-                        <div id="data-container" data-suppliers='{{ suppliers_json|safe }}'></div>
-                    </div>
-
-                    <!-- Cards -->
-                    <div id="cards-view">
-
-                        <div id="data-container-no-handsontable" data-suppliers='{{ suppliers_json|safe }}'></div>
-                    </div>
-                {% else %}
-                    <h4 class="supplier-message">No suppliers found.</h4>
-                {% endif %}
-            {% else %}
-                <div>
-                    <h4>There are still no suppliers created.</h4>
-                </div>
-            {% endif %}
-        </div>
-        <!-- Handsontable JS Script-->
-        <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
-        <script src="{% static 'js/supplier-handsontable.js' %}"></script>
-
-        <!-- Supplier CRUD script -->
-        <script type="module" src="{% static 'js/supplier-crud.js' %}"></script>
-
-        <div class="button-container">
-            <div class="controls">
-                <button class="reset-button-style button btn-download" id="export-file">Download CSV</button>
-            </div>
-            <div class="action-buttons">
-                <button class="reset-button-style button btn-create" type="button" onclick="showCreateForm()">Add
-                    Supplier
-                </button>
-                <button id="toggle-view-btn" class="reset-button-style button btn-download">Change View</button>
-            </div>
-        </div>
-
-    </div>
-
-{% endblock %}
+<div class="supplier-list">
+  {% for supplier in object_list%} 
+  {% include 'suppliers/partials/supplier-card.html' with supplier=supplier%} 
+  {%empty%}
+  <li>No suppliers yet!</li>
+  {%endfor%} {% endblock %}
+</div>

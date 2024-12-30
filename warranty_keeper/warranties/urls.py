@@ -1,9 +1,5 @@
 from django.urls import path
 
-from warranty_keeper.warranties.views import WarrantiesView, WarrantyCreateView, WarrantyUpdateView
+from warranty_keeper.warranties.views import WarrantiesListView
 
-urlpatterns = (
-    path("", WarrantiesView.as_view(), name="warranty-list"),
-    path('create/', WarrantyCreateView.as_view(), name='warranty-create'),
-    path('<int:pk>/edit/', WarrantyUpdateView.as_view(), name='warranty-update'),
-)
+urlpatterns = (path("", WarrantiesListView.as_view(), name="warranties-list"),)
