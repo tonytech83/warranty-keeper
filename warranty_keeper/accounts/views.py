@@ -1,4 +1,4 @@
-from django.contrib.auth import views as auth_views, get_user_model, logout
+from django.contrib.auth import views as auth_views, get_user_model, logout, login
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.views import generic as views
@@ -25,8 +25,19 @@ class RegisterUserView(views.CreateView):
     queryset = UserModel.objects.all()
     template_name = "accounts/register-page.html"  # TODO: fix template
     form_class = UserRegistrationForm
-
     success_url = reverse_lazy('dashboard')
+
+    
+    def form_valid(self, form):
+        """
+        Automatically log in a user after successful registration
+        """
+        # Save the form and create the user
+        response = super().form_valid(form)
+        # Log in the newly created user
+        user = form.instance
+        login(self.request, user)
+        return response
 
 
 class PasswordChangeView(auth_views.PasswordChangeView):
