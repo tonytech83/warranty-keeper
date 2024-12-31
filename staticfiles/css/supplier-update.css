@@ -3,6 +3,7 @@ form {
   flex-direction: column;
   min-height: 100%;
   flex: 1;
+  justify-content: space-around;
 }
 
 form .bottom-btns {

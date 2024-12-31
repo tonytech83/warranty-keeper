@@ -3,9 +3,12 @@
 ----------------------------*/
 
 .supplier-details-container {
-  width: 400px;
+  background-color: var(--white-color);
+  border: 2px solid var(--white-color);
+  border-radius: 40px 0 40px 0;
+  margin: 40px;
+  max-width: 100%;
   flex: 1;
-  margin: auto;
   display: flex;
   gap: 20px;
   flex-direction: column;
@@ -14,21 +17,29 @@
 }
 
 .supplier-details-container .logo {
-  /* border: 2px solid var(--red-color); */
   padding: 5px;
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-.supplier-details-container table {
-  width: 100%;
-  border-collapse: collapse;
+.supplier-details-table {
+  /* width: 40%; */
+  font-size: 1.2em;
+  color: var(--black-color);
+  font-weight: 700;
 }
 
-.supplier-details-container table td,
-.supplier-details-container table th {
-  padding-left: 12px; /* Add spacing inside cells */
-  /* border: 1px solid #ddd;  */
-  text-align: left; /* Align text to the left */
+.supplier-details-table td {
+  width: 50%;
+}
+
+.supplier-details-table .left {
+  text-align: end;
+  padding-right: 10px;
+  border: none;
+}
+
+.supplier-details-table .right {
+  border: none;
 }

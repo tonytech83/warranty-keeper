@@ -9,7 +9,16 @@
 
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %} 
-  {{ form.as_p }}
+  
+  <div class="create-form-inputs">
+    {% include 'base/partials/create-input-field.html' with f_title='Supplier name' f_type='text' f_id='id_name' f_name='name' f_placeholder=form.name.help_text %}
+    {% include 'base/partials/create-input-field.html' with f_title='Logo' f_type='file' f_id='id_logo' f_name='logo' f_placeholder=form.logo.help_text %}
+    {% include 'base/partials/create-input-field.html' with f_title='Email' f_type='email' f_id='id_email' f_name='email' f_options=form.fields.email.choices %}
+    {% include 'base/partials/create-input-field.html' with f_title='Phone number' f_type='text' f_id='id_phone_number' f_name='phone_number' f_placeholder=form.phone_number.help_text %}
+    {% include 'base/partials/create-input-field.html' with f_title='Website' f_type='text' f_id='id_website' f_name='website' f_placeholder=form.website.help_text %}
+  </div>
+
+
   <div class="bottom-btns">
     <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>
     <div class="action-bottom-right-btn">

@@ -2,7 +2,7 @@ from django.db import models
 
 from django.core.validators import MinLengthValidator
 
-
+from warranty_keeper.core.model_mixins import TimeStampedModel
 from warranty_keeper.suppliers.models import Supplier
 
 
@@ -16,7 +16,7 @@ class Period(models.IntegerChoices):
     THIRTY_SIX_MONTHS = 36, "36 Months"
 
 
-class Warranty(models.Model):
+class Warranty(TimeStampedModel, models.Model):
     MAX_NAME_LENGTH = 100
     MIN_NAME_LENGTH = 2
 

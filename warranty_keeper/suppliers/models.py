@@ -3,8 +3,10 @@ from django.core.validators import MinLengthValidator
 
 from phonenumber_field.modelfields import PhoneNumberField
 
+from warranty_keeper.core.model_mixins import TimeStampedModel
 
-class Supplier(models.Model):
+
+class Supplier(TimeStampedModel, models.Model):
     MIN_NAME_LENGTH = 2
     MAX_NAME_LENGTH = 50
 

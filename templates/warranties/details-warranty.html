@@ -3,7 +3,7 @@
 <div class="top-btns">
   <div class="empty-top-left-btn">EMPTY-TOP-LEFT-BTN</div>
   <div class="action-top-right-btn">
-    <a href="{% url 'suppliers-list' %}">Back</a>
+    <a href="{% url 'warranties-list' %}">Back</a>
   </div>
 </div> 
 
@@ -13,8 +13,8 @@
   <img class="invoice_img" src="{{ supplier.invoice_img.url }}" alt="{{ warranty.name }}" />
   {% endif%}
 
-  <table>
-    {% include 'base/partials/details-field.html' with supplier=object p_title='Name' value=object.name %}
+  <table class="warranty-details-table">
+    {% include 'base/partials/details-field.html' with supplier=object p_title='Item name' value=object.item_name %}
     {% include 'base/partials/details-field.html' with supplier=object p_title='Purchase date' value=object.purchase_date %}
     {% include 'base/partials/details-field.html' with supplier=object p_title='Period' value=object.period %}
     {% include 'base/partials/details-field.html' with supplier=object p_title='Description' value=object.description %}

@@ -13,7 +13,7 @@
   <img class="logo" src="{{ supplier.logo.url }}" alt="{{ supplier.name }}" />
   {% endif%}
 
-  <table>
+  <table class="supplier-details-table">
     {% include 'base/partials/details-field.html' with item=object p_title='Name' value=object.name %}
     {% include 'base/partials/details-field.html' with item=object p_title='Email' value=object.email %}
     {% include 'base/partials/details-field.html' with item=object p_title='Phone number' value=object.phone_number %}

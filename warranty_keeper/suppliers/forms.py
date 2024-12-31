@@ -10,7 +10,10 @@ class SupplierCreateForm(SupplierBaseForm):
     pass
 
 class SupplierUpdateForm(SupplierBaseForm):
-    pass
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].required = False
 
 class SupplierDeleteForm(SupplierBaseForm):
     pass

@@ -3,12 +3,21 @@
 <div class="top-btns">
   <div class="empty-top-left-btn">EMPTY-TOP-LEFT-BTN</div>
   <div class="action-top-right-btn">
-    <a href="{% url 'suppliers-list' %}">Back</a>
+    <a href="{% url 'warranty-details' pk=object.pk %}">Back</a>
   </div>
 </div>
 
-<form action="{% url 'warranty-update' pk=object.pk %}" method="POST">
-  {{ form }} {% csrf_token %}
+<form action="{% url 'warranty-update' pk=object.pk %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="create-form-inputs">
+    {% include 'base/partials/update-input-field.html' with f_title='Item name' f_type='text' f_id='id_item_name' f_name='item_name' f_value=form.item_name.value %}
+    {% include 'base/partials/update-input-field.html' with f_title='Purchase date' f_type='date' f_id='id_p_date' f_name='purchase_date' f_value=form.purchase_date.value %}
+    {% include 'base/partials/update-input-field.html' with f_title='Period' f_type='select' f_id='id_period' f_name='period' f_options=form.fields.period.choices %}
+    {% include 'base/partials/update-input-field.html' with f_title='Description' f_type='text' f_id='id_desc' f_name='description' f_value=form.description.value %}
+    {% include 'base/partials/update-input-field.html' with f_title='Invoice image' f_type='file' f_id='id_invoice_img' f_name='invoice_img' f_value=form.invoice_img.value %}
+    {% include 'base/partials/update-input-field.html' with f_title='Supplier' f_type='select' f_id='id_supplier' f_name='supplier' f_options=form.fields.supplier.choices %}
+  </div>
 
   <div class="bottom-btns">
     <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>

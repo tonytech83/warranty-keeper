@@ -32,3 +32,4 @@ class SupplierUpdateView(views.UpdateView):
 class SupplierDeleteView(views.DeleteView):
     model = Supplier
     form_class = SupplierDeleteForm
+    success_url = reverse_lazy("suppliers-list")

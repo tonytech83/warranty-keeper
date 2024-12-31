@@ -26,7 +26,6 @@ button {
   height: 40px;
   display: flex;
   justify-content: end;
-  /* align-items: center; */
   background-color: var(--black-color);
 }
 
@@ -64,6 +63,7 @@ button {
 .action-top-right-btn button:hover,
 .action-bottom-right-btn button:hover {
   color: var(--orange-color);
+  font-weight: 700;
 }
 
 /* ---------------------------
