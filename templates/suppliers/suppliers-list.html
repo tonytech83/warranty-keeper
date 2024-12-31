@@ -1,13 +1,23 @@
-{% extends "base/base.html" %} {% block main_content %}
+{% extends 'base/base.html' %} {% load static %} {% block main_content %}
 
-<div class=".supplier-card">
-  <a href="{% url 'supplier-create' %}">Create Supplier</a>
+<div class="top-btns">
+  <div class="empty-top-left-btn">EMPTY-TOP-LEFT-BTN</div>
+  <div class="action-top-right-btn">
+    <a href="{% url 'supplier-create' %}">Create Supplier</a>
+  </div>
 </div>
 
 <div class="supplier-list">
-  {% for supplier in object_list%} 
-  {% include 'suppliers/partials/supplier-card.html' with supplier=supplier%} 
-  {%empty%}
+  {% for supplier in object_list %} 
+  {% include 'suppliers/partials/supplier-card.html' with supplier=supplier%}
+   {%empty%}
   <li>No suppliers yet!</li>
-  {%endfor%} {% endblock %}
+  {%endfor%}
 </div>
+
+<div class="bottom-btns">
+  <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>
+  <div class="empty-bottom-right-btn">EMPTY-BOTTOM-RIGHT-BTN</div>
+</div>
+
+{% endblock %}

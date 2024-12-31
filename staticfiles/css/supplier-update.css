@@ -1,0 +1,11 @@
+form {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  flex: 1;
+}
+
+form .bottom-btns {
+  margin-top: auto; /* Push this section to the bottom of the form */
+} 
+

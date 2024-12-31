@@ -1,12 +1,21 @@
 {% extends "base/base.html" %} {% block main_content %}
 
-<form action="{% url 'edit-fruit' pk=object.pk %}" method="POST">
-    {{ form }}
-
-    {% csrf_token %}
-    
-    <button type="submit">Edit</button>
+<div class="top-btns">
+  <div class="empty-top-left-btn">EMPTY-TOP-LEFT-BTN</div>
+  <div class="action-top-right-btn">
     <a href="{% url 'suppliers-list' %}">Back</a>
+  </div>
+</div>
+
+<form action="{% url 'supplier-update' pk=object.pk %}" method="POST">
+  {{ form }} {% csrf_token %}
+
+  <div class="bottom-btns">
+    <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>
+    <div class="action-bottom-right-btn">
+        <button type="submit" class="reset-button-style">Update</button>
+    </div>
+  </div>
 </form>
 
 {% endblock %}

@@ -1,28 +1,31 @@
 header {
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 0 2%;
   background: var(--black-color);
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   height: 40px;
 }
 
-.delimiter {
-  color: var(--white-color);
+nav {
+  height: 100%;
+  background-color: var(--white-color);
+  border-radius: 0 0 40px 0 ;
+  padding: 0 20px;
+}
+
+.nav-links-menu {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .link-item,
 .link-item-link {
   font-weight: 500;
-  color: var(--white-color);
+  color: var(--black-color);
   text-decoration: none;
-}
-
-.nav-links-menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
 }
 
 .nav-links-menu li {
@@ -31,16 +34,6 @@ header {
   font-size: 18px;
 }
 
-.nav-links-menu li a {
-  transition: all 0.3s ease 0s;
-}
-
-.nav-links-user li a {
-  border-bottom: 1px solid var(--orange-color);
-}
-
-.nav-links-menu li:hover {
-  border-bottom: 2px solid var(--orange-color);
-  font-size: 16px;
-  transition: all 0.2s ease 0s;
+.link-item-link:hover {
+  color: var(--orange-color);
 }

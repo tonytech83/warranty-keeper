@@ -1,19 +1,17 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>HOME PAGE</h1>
-</body>
-</html> -->
+{% extends "base/base.html" %} {% block main_content %}
 
-{% extends "base/base.html" %}
+<div class="top-btns">
+  <div class="empty-top-left-btn">EMPTY-TOP-LEFT-BTN</div>
+  <div class="empty-top-right-btn">EMPTY-TOP-RIGHT-BTN</div>
+</div>
 
-{% block main_content %}
+<div class="dashboard">
+  <h1>DASHBOARD</h1>
+</div>
 
-<h1>DASHBOARD</h1>
+<div class="bottom-btns">
+  <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>
+  <div class="empty-bottom-right-btn">EMPTY-BOTTOM-RIGHT-BTN</div>
+</div>
 
 {% endblock %}

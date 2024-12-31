@@ -1,0 +1,96 @@
+/* -------------------------------------- 
+General button reset for uniform styling
+---------------------------------------- */
+button {
+  background: var(--white-color);
+  color: var(--black-color);
+  font-size: 1em;
+  border: none;
+  cursor: pointer; /* Ensure it looks clickable */
+  padding: 0;
+  margin: 0;
+}
+
+/* ---------------------------
+        Action Buttons
+----------------------------*/
+.top-btns,
+.bottom-btns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-top-right-btn,
+.action-bottom-right-btn {
+  width: 200px;
+  height: 40px;
+  display: flex;
+  justify-content: end;
+  /* align-items: center; */
+  background-color: var(--black-color);
+}
+
+.action-top-right-btn a,
+.action-top-right-btn button,
+.action-bottom-right-btn button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--white-color);
+  border-radius: 0 0 0 40px;
+  color: var(--black-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.action-bottom-right-btn a,
+.action-bottom-right-btn button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--white-color);
+  border-radius: 40px 0 0 0;
+  color: var(--black-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.action-top-right-btn a:hover,
+.action-bottom-right-btn a:hover,
+.action-top-right-btn button:hover,
+.action-bottom-right-btn button:hover {
+  color: var(--orange-color);
+}
+
+/* ---------------------------
+      Empty Buttons
+----------------------------*/
+.empty-top-left-btn,
+.empty-top-right-btn,
+.empty-bottom-left-btn,
+.empty-bottom-right-btn {
+  width: 200px;
+  height: 40px;
+  background-color: var(--white-color);
+  overflow: hidden;
+}
+
+.empty-top-left-btn {
+  border-radius: 0 0 40px 0;
+}
+
+.empty-top-right-btn {
+  border-radius: 0 0 0 40px;
+}
+
+.empty-bottom-left-btn {
+  border-radius: 0 40px 0 0;
+}
+
+.empty-bottom-right-btn {
+  border-radius: 40px 0 0 0;
+}

@@ -1,8 +1,14 @@
 @import "colors.css";
+@import "buttons.css";
 @import "nav.css";
 @import "footer.css";
-@import "suppliers.css";
+@import "dashboard.css";
+@import "suppliers-list.css";
 @import "supplier-card.css";
+@import "supplier-details.css";
+@import "supplier-update.css";
+@import "warranties-list.css";
+@import "warranty-details.css";
 
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
@@ -25,13 +31,15 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  border-bottom: 2px solid var(--white-color);
+  border-top: 2px solid var(--white-color);
 }
 
 .content {
   flex: 1;
-  padding: 20px;
-  margin: 20px;
+  margin: 40px;
   display: flex;
   flex-direction: column;
-  border: 2px solid var(--white-color);
+  border-left: 2px solid var(--white-color);
+  border-right: 2px solid var(--white-color);
 }

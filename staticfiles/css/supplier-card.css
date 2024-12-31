@@ -1,12 +1,45 @@
 .supplier-card {
+  background-color: var(--white-color);
+  color: var(--black-color);
   text-decoration: none !important;
   width: 150px;
   height: 150px;
-  border: 2px solid var(--red-color);
+  border: 2px solid var(--white-color);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  border-radius: 40px 0 40px 0;
+}
+
+.supplier-card:hover {
+  background-color: var(--black-color);
+  color: var(--white-color);
+  transition: background 0.3s;
+  /* Shake animation */
+  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Shake animation */
+@keyframes shake {
+  10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+      transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+      transform: translate3d(-2px, 0, 0);
+  }
+
+  40%, 60% {
+      transform: translate3d(2px, 0, 0);
+  }
 }
 
 .supplier-logo img {

@@ -7,16 +7,15 @@
   </div>
 </div>
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %} 
-  {{ form.as_p }}
+<form action="{% url 'warranty-update' pk=object.pk %}" method="POST">
+  {{ form }} {% csrf_token %}
+
   <div class="bottom-btns">
     <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>
     <div class="action-bottom-right-btn">
-        <button type="submit" class="reset-button-style">Save</button>
+        <button type="submit" class="reset-button-style">Update</button>
     </div>
   </div>
-</form>
 </form>
 
 {% endblock %}

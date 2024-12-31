@@ -1,0 +1,7 @@
+.dashboard {
+    margin: 40px;
+    /* border: 2px solid var(--white-color); */
+    flex: 1;
+    padding: 40px;
+    /* border-radius: 40px 0 40px 0; */
+}

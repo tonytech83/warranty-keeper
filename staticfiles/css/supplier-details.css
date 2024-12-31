@@ -1,9 +1,6 @@
-.supplier-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+/* ---------------------------
+      Suppliers details
+----------------------------*/
 
 .supplier-details-container {
   width: 400px;

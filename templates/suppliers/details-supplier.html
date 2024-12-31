@@ -1,18 +1,31 @@
 {% extends "base/base.html" %} {% block main_content %}
 
+<div class="top-btns">
+  <div class="empty-top-left-btn">EMPTY-TOP-LEFT-BTN</div>
+  <div class="action-top-right-btn">
+    <a href="{% url 'suppliers-list' %}">Back</a>
+  </div>
+</div> 
+
+
 <div class="supplier-details-container">
+  {% if object.logo %}
+  <img class="logo" src="{{ supplier.logo.url }}" alt="{{ supplier.name }}" />
+  {% endif%}
 
-{% if object.logo %}
-<img class="logo" src="{{ supplier.logo.url }}" alt="{{ supplier.name }}" />
-{% endif%}
+  <table>
+    {% include 'base/partials/details-field.html' with item=object p_title='Name' value=object.name %}
+    {% include 'base/partials/details-field.html' with item=object p_title='Email' value=object.email %}
+    {% include 'base/partials/details-field.html' with item=object p_title='Phone number' value=object.phone_number %}
+    {% include 'base/partials/details-field.html' with item=object p_title='Website' value=object.website %}
+  </table>
+</div>
 
-<table>
-  {% include 'suppliers/partials/supplier-details-field.html' with supplier=object p_title='Name' value=object.name %}
-  {% include 'suppliers/partials/supplier-details-field.html' with supplier=object p_title='Email' value=object.email %}
-  {% include 'suppliers/partials/supplier-details-field.html' with supplier=object p_title='Phone number' value=object.phone_number %}
-  {% include 'suppliers/partials/supplier-details-field.html' with supplier=object p_title='Website' value=object.website %}
-</table>
-
+<div class="bottom-btns">
+  <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>
+  <div class="action-bottom-right-btn">
+    <a href="{% url 'supplier-update' pk=object.pk %}">Edit</a>
+  </div>
 </div>
 
 {% endblock %}
