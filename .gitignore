@@ -4,3 +4,5 @@ db.sqlite3
 proj_steps.md
 *.png
 *.jpg
+.env
+venv/
