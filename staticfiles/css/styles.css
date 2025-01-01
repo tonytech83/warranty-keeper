@@ -40,6 +40,7 @@ body {
   flex: 1;
   margin: 40px;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   border-left: 4px solid var(--white-color);
   border-right: 4px solid var(--white-color);
