@@ -21,7 +21,8 @@ button {
 }
 
 .action-top-right-btn,
-.action-bottom-right-btn {
+.action-bottom-right-btn,
+.action-bottom-left-btn {
   width: 200px;
   height: 40px;
   display: flex;
@@ -45,6 +46,7 @@ button {
 }
 
 .action-bottom-right-btn a,
+.action-bottom-left-btn a,
 .action-bottom-right-btn button {
   width: 100%;
   height: 100%;
@@ -52,14 +54,23 @@ button {
   align-items: center;
   justify-content: space-around;
   background-color: var(--white-color);
-  border-radius: 40px 0 0 0;
   color: var(--black-color);
   text-decoration: none;
   font-weight: 500;
 }
 
+.action-bottom-left-btn a {
+  border-radius: 0 40px 0 0;
+}
+
+.action-bottom-right-btn a,
+.action-bottom-right-btn button {
+  border-radius: 40px 0 0 0;
+}
+
 .action-top-right-btn a:hover,
 .action-bottom-right-btn a:hover,
+.action-bottom-left-btn a:hover,
 .action-top-right-btn button:hover,
 .action-bottom-right-btn button:hover {
   color: var(--orange-color);

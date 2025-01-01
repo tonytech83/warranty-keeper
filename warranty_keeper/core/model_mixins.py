@@ -7,3 +7,9 @@ class TimeStampedModel(models.Model):
 
     class Meta:
         abstract = True
+
+class SoftDeleteMixin:
+    def delete(self, using=None, keep_parents=False):
+        """Mark the object as deleted instead of removing it."""
+        self.deleted = True
+        self.save()

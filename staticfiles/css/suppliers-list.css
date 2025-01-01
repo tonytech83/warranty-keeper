@@ -9,4 +9,10 @@
   gap: 20px;
   flex: 1;
   padding: 40px;
+  justify-content: space-between;
+}
+
+.no-items {
+  font-size: 2em;
+  margin: auto;
 }

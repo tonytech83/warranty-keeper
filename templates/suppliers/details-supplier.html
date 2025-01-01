@@ -22,7 +22,9 @@
 </div>
 
 <div class="bottom-btns">
-  <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>
+  <div class="action-bottom-left-btn">
+    <a href="{% url 'supplier-delete' pk=object.pk %}">Delete</a>
+  </div>
   <div class="action-bottom-right-btn">
     <a href="{% url 'supplier-update' pk=object.pk %}">Edit</a>
   </div>

@@ -2,22 +2,22 @@
 
 <div class="top-btns">
   <div class="empty-top-left-btn">EMPTY-TOP-LEFT-BTN</div>
-  <div class="action-top-right-btn">
-    <a href="{% url 'supplier-create' %}">Create Supplier</a>
-  </div>
+  <div class="empty-top-right-btn">EMPTY-TOP-RIGHT-BTN</div>
 </div>
 
 <div class="supplier-list">
   {% for supplier in object_list %} 
   {% include 'suppliers/partials/supplier-card.html' with supplier=supplier%}
    {%empty%}
-  <li>No suppliers yet!</li>
+  <div class="no-items">NO SUPPLIERS YET!</div>
   {%endfor%}
 </div>
 
 <div class="bottom-btns">
   <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>
-  <div class="empty-bottom-right-btn">EMPTY-BOTTOM-RIGHT-BTN</div>
+  <div class="action-bottom-right-btn">
+    <a href="{% url 'supplier-create' %}">Create Supplier</a>
+  </div>
 </div>
 
 {% endblock %}

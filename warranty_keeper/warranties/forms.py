@@ -18,10 +18,11 @@ class WarrantyCreateForm(WarrantyBaseForm):
         self.fields["period"].choices = Warranty._meta.get_field("period").choices
 
         # Add choices for Supplier
-        self.fields["supplier"].queryset = Supplier.objects.all()
+        self.fields["supplier"].queryset = Supplier.objects.filter(deleted=False)
 
 
 class WarrantyUpdateForm(WarrantyBaseForm):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -29,7 +30,7 @@ class WarrantyUpdateForm(WarrantyBaseForm):
         self.fields["period"].choices = Warranty._meta.get_field("period").choices
 
         # Add choices for Supplier
-        self.fields["supplier"].queryset = Supplier.objects.all()
+        self.fields["supplier"].queryset = Supplier.objects.filter(deleted=False)
 
 
 class WarrantyDeleteForm(WarrantyBaseForm):

@@ -2,10 +2,10 @@
 
 <div class="top-btns">
   <div class="empty-top-left-btn">EMPTY-TOP-LEFT-BTN</div>
-  <div class="action-top-right-btn">
-    <a href="{% url 'warranty-create' %}">Create Warranty</a>
-  </div>
+  <div class="empty-top-right-btn">EMPTY-TOP-RIGHT-BTN</div>
 </div>
+
+{% if object_list%}
 
 <div class="warranties">
   <table>
@@ -25,13 +25,18 @@
       <td>{{warranty.period}}</td>
       <td>{{warranty.supplier}}</td>
     </tr>
-    {% endfor%}
+    {%endfor%}
   </table>
 </div>
+{%else%}
+<div class="no-items">NO WARRANTIES YET!</div>
+{%endif%}
 
 <div class="bottom-btns">
   <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>
-  <div class="empty-bottom-right-btn">EMPTY-BOTTOM-RIGHT-BTN</div>
+  <div class="action-bottom-right-btn">
+    <a href="{% url 'warranty-create' %}">Create Warranty</a>
+  </div>
 </div>
 
 {% endblock %}
