@@ -9,13 +9,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-@!(v&&*@wz%tb8u66r0#7hj&)sba64+y6#oto&9%h&%q(5-v&&"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "[::1]",
-] + [f"192.168.88.{i}" for i in range(256)]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"] + [f"192.168.88.{i}" for i in range(256)]
 
 
 # Application definition
@@ -103,25 +99,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_TZ = True
 
 
-# URL prefix in the client
+
 STATIC_URL = "/static/"
-
-# Directories on the file system
-STATICFILES_DIRS = (
-    BASE_DIR / "staticfiles",
-)
-
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+STATICFILES_DIRS = ( BASE_DIR / "staticfiles",)
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "mediafiles"
