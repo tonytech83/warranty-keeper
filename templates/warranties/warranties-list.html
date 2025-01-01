@@ -13,16 +13,18 @@
       <th>Item</th>
       <th>Purchase date</th>
       <th>Period</th>
+      <th>Expiration date</th>
+      <th>Days left</th>
       <th>Supplier</th>
     </tr>
 
     {% for warranty in object_list%}
     <tr>
-      <td>
-        <a href="{% url 'warranty-details' pk=warranty.pk %}">{{warranty.item_name}}</a>
-      </td>
-      <td>{{warranty.purchase_date}}</td>
+      <td><a href="{% url 'warranty-details' pk=warranty.pk %}">{{warranty.item_name}}</a></td>
+      <td>{{warranty.purchase_date|date:"d/m/Y"}}</td>
       <td>{{warranty.period}}</td>
+      <td>{{warranty.warranty_expiration_date|date:"d/m/Y"}}</td>
+      <td>{{warranty.days_before_expiration}}</td>
       <td>{{warranty.supplier}}</td>
     </tr>
     {%endfor%}

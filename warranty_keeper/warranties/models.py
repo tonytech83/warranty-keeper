@@ -1,4 +1,7 @@
+from dateutil.relativedelta import relativedelta
+
 from django.db import models
+from django.utils.timezone import now
 
 from django.core.validators import MinLengthValidator
 
@@ -57,3 +60,18 @@ class Warranty(TimeStampedModel, SoftDeleteMixin, models.Model):
         null=True,
         blank=True,
     )
+
+    @property
+    def warranty_expiration_date(self):
+        """Returns the accurate date on which the warranty will expire."""
+        return self.purchase_date + relativedelta(months=self.period)
+
+    @property
+    def days_before_expiration(self):
+        """Returns the number of days before the warranty expires."""
+        expiration_date = self.warranty_expiration_date
+        return (
+            (expiration_date - now().date()).days
+            if expiration_date > now().date()
+            else 0
+        )

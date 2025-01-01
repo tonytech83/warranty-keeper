@@ -9,13 +9,13 @@
 
 
 <div class="warranty-details-container">
-  {% if object.invoice_img %}
-  <img class="invoice_img" src="{{ supplier.invoice_img.url }}" alt="{{ warranty.name }}" />
-  {% endif%}
+  {% comment %} {% if object.invoice_img %}
+  <img class="invoice_img" src="{{ object.invoice_img.url }}" alt="{{ warranty.name }}" />
+  {% endif%} {% endcomment %}
 
   <table class="warranty-details-table">
     {% include 'base/partials/details-field.html' with supplier=object p_title='Item name' value=object.item_name %}
-    {% include 'base/partials/details-field.html' with supplier=object p_title='Purchase date' value=object.purchase_date %}
+    {% include 'base/partials/details-field.html' with supplier=object p_title='Purchase date' value=object.purchase_date|date:"d/m/Y" %}
     {% include 'base/partials/details-field.html' with supplier=object p_title='Period' value=object.period %}
     {% include 'base/partials/details-field.html' with supplier=object p_title='Description' value=object.description %}
     {% include 'base/partials/details-field.html' with supplier=object p_title='invoice image' value=object.invoice_img %}
