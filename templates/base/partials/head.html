@@ -27,22 +27,12 @@
 <!-- Template Stylesheet -->
 <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 
-<!-- Include CSRF Token for the POST Request -->
+{% comment %} <!-- Include CSRF Token for the POST Request -->
 {# Logout button as a tag #}
-<meta name="csrf-token" content="{{ csrf_token }}">
+<meta name="csrf-token" content="{{ csrf_token }}"> {% endcomment %}
 
 <!-- Template JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/handsontable@13.1.0/dist/handsontable.full.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3"></script>
-
-<!-- Custom js scripts -->
-{% comment %} <script>
-    var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-    var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-        return new bootstrap.Dropdown(dropdownToggleEl);
-    });
-</script> {% endcomment %}
-
-{#<script src="{% static 'js/logout.js' %}"></script>#}
