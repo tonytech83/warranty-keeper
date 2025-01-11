@@ -1,6 +1,7 @@
 from django import forms
 from .models import Warranty
 from warranty_keeper.suppliers.models import Supplier
+from warranty_keeper.warranties.models import Period
 
 
 class WarrantyBaseForm(forms.ModelForm):
@@ -18,7 +19,9 @@ class WarrantyCreateForm(WarrantyBaseForm):
         self.fields["period"].choices = Warranty._meta.get_field("period").choices
 
         # Add choices for Supplier
-        self.fields["supplier"].queryset = Supplier.objects.filter(deleted=False)
+        self.fields["supplier"].queryset = Supplier.objects.filter(
+            deleted=False
+        ).order_by("name")
 
 
 class WarrantyUpdateForm(WarrantyBaseForm):
