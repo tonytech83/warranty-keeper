@@ -11,40 +11,31 @@ button {
   margin: 0;
 }
 
-/* ---------------------------
-        Action Buttons
-----------------------------*/
 .top-btns,
 .bottom-btns {
   display: flex;
   justify-content: space-between;
 }
 
+/* ---------------------------
+        Action Buttons
+----------------------------*/
+
 .action-top-right-btn,
+.action-top-left-btn,
 .action-bottom-right-btn,
 .action-bottom-left-btn {
   width: 200px;
   height: 40px;
   display: flex;
   justify-content: end;
-  background-color: var(--black-color);
+  /* background-color: var(--black-color); */
 }
 
 .action-top-right-btn a,
+.action-top-left-btn a,
 .action-top-right-btn button,
-.action-bottom-right-btn button {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background-color: var(--white-color);
-  border-radius: 0 0 0 40px;
-  color: var(--black-color);
-  text-decoration: none;
-  font-weight: 500;
-}
-
+.action-bottom-right-btn button,
 .action-bottom-right-btn a,
 .action-bottom-left-btn a,
 .action-bottom-right-btn button {
@@ -59,6 +50,14 @@ button {
   font-weight: 500;
 }
 
+.action-top-right-btn a {
+  border-radius: 0 0 0 40px;
+}
+
+.action-top-left-btn a {
+  border-radius: 0 0 40px 0;
+}
+
 .action-bottom-left-btn a {
   border-radius: 0 40px 0 0;
 }
@@ -69,6 +68,7 @@ button {
 }
 
 .action-top-right-btn a:hover,
+.action-top-left-btn a:hover,
 .action-bottom-right-btn a:hover,
 .action-bottom-left-btn a:hover,
 .action-top-right-btn button:hover,

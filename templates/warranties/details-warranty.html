@@ -1,7 +1,11 @@
 {% extends "base/base.html" %} {% block main_content %}
 
 <div class="top-btns">
-  <div class="empty-top-left-btn">EMPTY-TOP-LEFT-BTN</div>
+  <div class="action-top-left-btn">
+    {% if object.invoice_img %}
+    <a href="{{ object.invoice_img.url }}" download class="download-btn">Download</a>
+    {% endif %}
+  </div>
   <div class="action-top-right-btn">
     <a href="{% url 'warranties-list' %}">Back</a>
   </div>
@@ -9,9 +13,9 @@
 
 
 <div class="warranty-details-container">
-  {% comment %} {% if object.invoice_img %}
+  {% if object.invoice_img %}
   <img class="invoice_img" src="{{ object.invoice_img.url }}" alt="{{ warranty.name }}" />
-  {% endif%} {% endcomment %}
+  {% endif%}
 
   <table class="warranty-details-table">
     {% include 'base/partials/details-field.html' with supplier=object p_title='Item name' value=object.item_name %}
