@@ -6,3 +6,4 @@ proj_steps.md
 *.jpg
 .env
 venv/
+.idea/
