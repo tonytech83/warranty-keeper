@@ -4,7 +4,7 @@ django-phonenumber-field==8.0.0
 gunicorn==23.0.0
 packaging==24.2
 phonenumbers==8.13.52
-pillow==11.0.0
+pillow==12.1.1
 psycopg2==2.9.10
 python-dateutil==2.9.0.post0
 python-decouple==3.8
