@@ -1,47 +1,706 @@
-@import "colors.css";
-@import "buttons.css";
-@import "nav.css";
-@import "footer.css";
-@import "dashboard.css";
-@import "suppliers-list.css";
-@import "supplier-card.css";
-@import "supplier-details.css";
-@import "supplier-update.css";
-@import "warranties-list.css";
-@import "warranty-details.css";
-@import "warranty-create.css";
+/* ============================================================
+   Warranty Keeper — single self-contained theme
+   Dark "observability console" look: near-black surfaces,
+   orange accent, muted uppercase labels, clean tables.
+   ============================================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+:root {
+    /* Surfaces */
+    --bg: #0c0d10;
+    --bg-1: #131519; /* header / footer / table head */
+    --bg-2: #181b21; /* cards & panels */
+    --bg-3: #1f232b; /* inputs / hover */
+    --border: #262b34;
+    --border-2: #333a45;
+
+    /* Text */
+    --text: #e7e9ee;
+    --text-dim: #9aa0ab;
+    --text-faint: #646b76;
+
+    /* Accent + status */
+    --accent: #f7931a;
+    --accent-2: #ffb152;
+    --green: #3fb950;
+    --amber: #d8a017;
+    --red: #f0524b;
+    --blue: #4d96ff;
+    --purple: #7e57c2;
+
+    /* Legacy aliases consumed by the Chart.js script & older markup */
+    --black-color: var(--bg);
+    --white-color: var(--text);
+    --grey-color: var(--bg-2);
+    --green-color: var(--green);
+    --yellow-color: var(--amber);
+    --red-color: var(--red);
+    --blue-color: var(--blue);
+    --orange-color: var(--accent);
+}
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html,
 body {
-  height: 100%;
-  margin: 0;
-  background: var(--black-color);
-  color: var(--white-color);
-  font-family: "Montserrat", sans-serif;
+    height: 100%;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
 }
 
 .site-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  border-bottom: 4px solid var(--white-color);
-  border-top: 4px solid var(--white-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .content {
-  flex: 1;
-  margin: 40px;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  border-left: 4px solid var(--white-color);
-  border-right: 4px solid var(--white-color);
+    flex: 1;
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 28px 24px;
+}
+
+/* ---------------------------------- Header / nav --------------- */
+header {
+    background: var(--bg-1);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+nav {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 0.3px;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.nav-brand img {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    margin-right: 4px;
+    color: red;
+}
+.nav-brand:hover {
+    color: var(--accent);
+}
+
+.nav-links-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    /* Override Bootstrap's `ul` margin/padding (higher specificity than the *
+     reset) — its bottom margin was throwing off vertical centering.
+     `auto` left margin pushes the tabs to the right edge. */
+    margin: 0 0 0 auto;
+    padding: 0;
+}
+
+.nav-links-menu li {
+    display: flex;
+    align-items: center;
+}
+
+.link-item-link {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0.2px;
+    transition:
+        background 0.15s,
+        color 0.15s;
+}
+.link-item-link:hover {
+    color: var(--text);
+    background: var(--bg-3);
+}
+.link-item-link.active {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* ---------------------------------- Footer --------------------- */
+.footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg-1);
+}
+.footer-section {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    color: var(--text-faint);
+    font-size: 12px;
+    letter-spacing: 0.3px;
+}
+
+/* ---------------------------------- Toolbars / buttons --------- */
+.top-btns,
+.bottom-btns {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.bottom-btns {
+    margin-top: 24px;
+    margin-bottom: 0;
+}
+
+/* Old decorative corner placeholders are gone in the new theme. */
+.empty-top-left-btn,
+.empty-top-right-btn,
+.empty-bottom-left-btn,
+.empty-bottom-right-btn {
+    display: none;
+}
+
+/* Align actions regardless of how many siblings a bar has. */
+.action-top-left-btn,
+.action-bottom-left-btn {
+    margin-right: auto;
+}
+.action-top-right-btn,
+.action-bottom-right-btn {
+    margin-left: auto;
+}
+
+.action-top-left-btn a,
+.action-top-right-btn a,
+.action-bottom-left-btn a,
+.action-bottom-right-btn a,
+.action-bottom-right-btn button,
+.reset-button-style {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 16px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid var(--border-2);
+    background: var(--bg-2);
+    color: var(--text);
+    transition:
+        border-color 0.15s,
+        color 0.15s,
+        background 0.15s,
+        transform 0.05s;
+}
+.action-top-left-btn a:hover,
+.action-top-right-btn a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+.action-top-left-btn a:active,
+.action-top-right-btn a:active,
+.action-bottom-right-btn a:active,
+.action-bottom-right-btn button:active,
+.reset-button-style:active {
+    transform: translateY(1px);
+}
+
+/* Primary action (Create / Save / Update) */
+.action-bottom-right-btn a,
+.action-bottom-right-btn button,
+.reset-button-style {
+    background: var(--accent);
+    color: #20160a;
+    border-color: transparent;
+    font-weight: 700;
+}
+.action-bottom-right-btn a:hover,
+.action-bottom-right-btn button:hover,
+.reset-button-style:hover {
+    background: var(--accent-2);
+}
+
+/* Destructive action (Delete) */
+.action-bottom-left-btn a {
+    color: var(--red);
+    border-color: rgba(240, 82, 75, 0.4);
+    background: rgba(240, 82, 75, 0.06);
+}
+.action-bottom-left-btn a:hover {
+    background: var(--red);
+    color: #fff;
+    border-color: transparent;
+}
+
+/* ---------------------------------- Tables (warranties list) --- */
+.warranties {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
+.warranties-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text);
+}
+
+.warranties-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    background: var(--bg-1);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.warranties-table td {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+}
+.warranties-table tr:last-child td {
+    border-bottom: none;
+}
+.warranties-table tr:hover td {
+    background: var(--bg-3);
+}
+.warranties-table td a {
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+}
+.warranties-table td a:hover {
+    color: var(--accent);
+}
+
+.no-items {
+    padding: 56px 24px;
+    text-align: center;
+    color: var(--text-faint);
+    font-size: 15px;
+    background: var(--bg-2);
+    border: 1px dashed var(--border-2);
+    border-radius: 10px;
+}
+
+/* ---------------------------------- Detail views --------------- */
+.warranty-details-container,
+.supplier-details-container {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.warranty-details-container img,
+.supplier-details-container img,
+.invoice_img,
+.supplier-details-container .logo {
+    max-width: 300px;
+    max-height: 320px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.warranty-details-table,
+.supplier-details-table {
+    flex: 1;
+    min-width: 280px;
+    border-collapse: collapse;
+}
+
+.warranty-details-table td,
+.supplier-details-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+}
+.warranty-details-table tr:last-child td,
+.supplier-details-table tr:last-child td {
+    border-bottom: none;
+}
+
+.warranty-details-table .left,
+.supplier-details-table .left {
+    width: 38%;
+    color: var(--text-faint);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+.warranty-details-table .right,
+.supplier-details-table .right {
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* ---------------------------------- Suppliers grid ------------- */
+.supplier-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+}
+
+.supplier-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 140px;
+    padding: 16px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    text-decoration: none !important;
+    transition:
+        border-color 0.15s,
+        transform 0.12s,
+        color 0.15s;
+}
+.supplier-card:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+.supplier-logo img {
+    max-width: 100%;
+    max-height: 104px;
+    object-fit: contain;
+}
+.supplier-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* ---------------------------------- Forms ---------------------- */
+.form-errors {
+    max-width: 560px;
+    margin: 0 auto 16px;
+    padding: 14px 16px;
+    background: rgba(240, 82, 75, 0.08);
+    border: 1px solid rgba(240, 82, 75, 0.4);
+    border-radius: 10px;
+    color: #ff9b95;
+    font-size: 13px;
+}
+.form-errors strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--red);
+}
+.form-errors ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.create-form-inputs {
+    max-width: 560px;
+    margin: 0 auto;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+}
+
+.create-form-inputs .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.input-group-text {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    color: var(--text-faint) !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    justify-content: flex-start;
+}
+
+.form-control,
+.form-select {
+    width: 100% !important;
+    height: 40px;
+    padding: 8px 12px !important;
+    background: var(--bg-3) !important;
+    border: 1px solid var(--border-2) !important;
+    border-radius: 7px !important;
+    color: var(--text) !important;
+    font-size: 14px !important;
+}
+.form-control::placeholder {
+    color: var(--text-faint);
+}
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 2px rgba(247, 147, 26, 0.15) !important;
+    outline: none;
+}
+.form-select option {
+    background: var(--bg-2);
+    color: var(--text);
+}
+
+/* ---------------------------------- Dashboard ------------------ */
+.dashboard {
+    width: 100%;
+}
+
+.dash-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-bottom: 22px;
+    padding-left: 12px;
+    border-left: 3px solid var(--accent);
+}
+
+/* KPI cards — compact and responsive */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.kpi-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+.kpi-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--blue);
+}
+.kpi-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+.kpi-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    font-weight: 600;
+    color: var(--text-faint);
+}
+.kpi-neutral:before {
+    background: var(--text);
+}
+.kpi-active:before {
+    background: var(--green);
+}
+.kpi-warn::before {
+    background: var(--amber);
+}
+.kpi-danger::before {
+    background: var(--red);
+}
+.kpi-accent::before {
+    background: var(--purple);
+}
+.kpi-accent .kpi-value {
+    color: var(--accent);
+}
+
+/* Panels */
+.dash-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.dash-panel {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+}
+
+.panel-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    padding-bottom: 12px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-empty {
+    padding: 10px 0;
+    color: var(--text-faint);
+    font-size: 13px;
+}
+.panel-empty a {
+    color: var(--accent);
+}
+
+.alert-list,
+.recent-list {
+    list-style: none;
+}
+
+.alert-item,
+.recent-item {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+.alert-item:last-child,
+.recent-item:last-child {
+    border-bottom: none;
+}
+
+.alert-name {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+}
+.alert-name:hover {
+    color: var(--accent);
+}
+
+.alert-meta {
+    font-size: 12px;
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+}
+
+.alert-days {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+.alert-item.urgent .alert-days {
+    background: rgba(240, 82, 75, 0.14);
+    color: var(--red);
+    border: 1px solid rgba(240, 82, 75, 0.35);
+}
+.alert-item.warn .alert-days {
+    background: rgba(216, 160, 23, 0.14);
+    color: var(--amber);
+    border: 1px solid rgba(216, 160, 23, 0.35);
+}
+.alert-item.ok .alert-days {
+    background: rgba(63, 185, 80, 0.14);
+    color: var(--green);
+    border: 1px solid rgba(63, 185, 80, 0.35);
+}
+
+/* Charts — fixed-height boxes keep canvases from blowing up */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.chart-wide {
+    grid-column: 1 / -1;
+}
+.chart-box {
+    position: relative;
+    height: 260px;
+}
+.chart-box canvas {
+    position: absolute;
+    inset: 0;
+}
+
+/* ---------------------------------- Responsive ---------------- */
+@media (max-width: 760px) {
+    .content {
+        padding: 18px 14px;
+    }
+    nav {
+        gap: 14px;
+        padding: 0 14px;
+    }
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
 }

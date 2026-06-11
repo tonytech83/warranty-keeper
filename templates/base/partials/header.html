@@ -1,15 +1,31 @@
 {% load static %}
 
 <nav>
-  <ul class="nav-links-menu">
-    <li class="link-item">
-      <a class="link-item-link" href="/">Dashboard</a>
-    </li>
-    <li class="link-item">
-      <a class="link-item-link" href="{% url 'warranties-list' %}">Warranties</a>
-    </li>
-    <li class="link-item">
-      <a class="link-item-link" href="{% url 'suppliers-list' %}">Suppliers</a>
-    </li>
-  </ul>
+    <a class="nav-brand" href="/">
+        <img src="{% static 'img/app_logo.svg' %}" alt="Logo" />
+        Warranty Keeper
+    </a>
+    <ul class="nav-links-menu">
+        <li class="link-item">
+            <a
+                class="link-item-link{% if request.path == '/' %} active{% endif %}"
+                href="/"
+                >Dashboard</a
+            >
+        </li>
+        <li class="link-item">
+            <a
+                class="link-item-link{% if '/warranties/' in request.path %} active{% endif %}"
+                href="{% url 'warranties-list' %}"
+                >Warranties</a
+            >
+        </li>
+        <li class="link-item">
+            <a
+                class="link-item-link{% if '/suppliers/' in request.path %} active{% endif %}"
+                href="{% url 'suppliers-list' %}"
+                >Suppliers</a
+            >
+        </li>
+    </ul>
 </nav>

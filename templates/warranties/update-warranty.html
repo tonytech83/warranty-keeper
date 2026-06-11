@@ -10,11 +10,14 @@
 <form action="{% url 'warranty-update' pk=object.pk %}" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
 
+  {% include 'base/partials/form-errors.html' %}
+
   <div class="create-form-inputs">
     {% include 'base/partials/update-input-field.html' with f_title='Item name' f_type='text' f_id='id_item_name' f_name='item_name' f_value=form.item_name.value %}
     {% include 'base/partials/update-input-field.html' with f_title='Purchase date' f_type='date' f_id='id_p_date' f_name='purchase_date' f_value=object.purchase_date|date:"Y-m-d" %}
     {% include 'base/partials/update-input-field.html' with f_title='Period' f_type='select' f_id='id_period' f_name='period' f_value=object.period f_options=form.fields.period.choices %}
     {% include 'base/partials/update-input-field.html' with f_title='Description' f_type='text' f_id='id_desc' f_name='description' f_value=form.description.value %}
+    {% include 'base/partials/update-input-field.html' with f_title='Price' f_type='number' f_id='id_price' f_name='price' f_value=form.price.value %}
     {% include 'base/partials/update-input-field.html' with f_title='Invoice image' f_type='file' f_id='id_invoice_img' f_name='invoice_img' f_value=form.invoice_img.value %}
     {% include 'base/partials/update-input-field.html' with f_title='Supplier' f_type='select' f_id='id_supplier' f_name='supplier' f_value=object.supplier.id f_options=form.fields.supplier.choices %}
   </div>

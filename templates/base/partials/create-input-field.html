@@ -4,12 +4,12 @@
     {% if f_type == "select" %}
     <select id="{{ f_id }}" name="{{ f_name }}" class="form-select" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
         {% for option in f_options %}
-        <option value="{{ option.0 }}" {% if option.0 == form.data.f_name %}selected{% endif %}>
+        <option value="{{ option.0 }}" {% if option.0|stringformat:'s' == f_value|stringformat:'s' %}selected{% endif %}>
             {{ option.1 }}
         </option>
         {% endfor %}
     </select>
     {% else %}
-    <input type="{{ f_type }}" id="{{ f_id }}" name="{{ f_name }}" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="{{ f_placeholder }}">
+    <input type="{{ f_type }}" id="{{ f_id }}" name="{{ f_name }}" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="{{ f_placeholder }}"{% if f_type != "file" and f_value is not None %} value="{{ f_value|default:'' }}"{% endif %}>
     {% endif %}
 </div>

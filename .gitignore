@@ -6,4 +6,8 @@ proj_steps.md
 *.jpg
 .env
 venv/
+.venv/
 .idea/
+static/
+mediafiles/
+data/

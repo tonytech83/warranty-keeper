@@ -22,6 +22,11 @@
     {% include 'base/partials/details-field.html' with supplier=object p_title='Purchase date' value=object.purchase_date|date:"d/m/Y" %}
     {% include 'base/partials/details-field.html' with supplier=object p_title='Period' value=object.period %}
     {% include 'base/partials/details-field.html' with supplier=object p_title='Description' value=object.description %}
+    <tr>
+      <td class="left">Price</td>
+      <td class="right">{% if object.price != None %}{{ CURRENCY }}{{ object.price|floatformat:2 }}{% else %}Not set{% endif %}</td>
+    </tr>
+    {% include 'base/partials/details-field.html' with supplier=object p_title='Expiration date' value=object.warranty_expiration_date|date:"d/m/Y" %}
     {% include 'base/partials/details-field.html' with supplier=object p_title='invoice image' value=object.invoice_img %}
     {% include 'base/partials/details-field.html' with supplier=object p_title='Supplier' value=object.supplier %}
   </table>

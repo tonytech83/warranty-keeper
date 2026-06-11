@@ -1,0 +1,21 @@
+services:
+  web:
+    build: .
+    container_name: warranty_keeper
+    ports:
+      - "8000:8000"
+    environment:
+      # Values are read from a local .env file if present (see .env.example).
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-me-in-production}
+      - DEBUG=${DEBUG:-False}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,[::1]}
+      - CURRENCY=${CURRENCY:-€}
+      - SQLITE_PATH=/app/data/db.sqlite3
+      - MEDIA_ROOT=/app/mediafiles
+    volumes:
+      # Bind mounts: the SQLite database and uploaded media live as real files
+      # on the host (./data and ./mediafiles). They will survive `docker rm`,
+      # so a new container reopens the same database.
+      - ./data:/app/data
+      - ./mediafiles:/app/mediafiles
+    restart: unless-stopped

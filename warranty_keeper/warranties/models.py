@@ -46,6 +46,14 @@ class Warranty(TimeStampedModel, SoftDeleteMixin, models.Model):
         blank=True,
     )
 
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        help_text="Purchase price of the item.",
+    )
+
     invoice_img = models.FileField(
         upload_to="invoices/",
         null=True,
@@ -75,3 +83,8 @@ class Warranty(TimeStampedModel, SoftDeleteMixin, models.Model):
             if expiration_date > now().date()
             else 0
         )
+
+    @property
+    def is_expired(self):
+        """True when the warranty period has already ended."""
+        return self.warranty_expiration_date < now().date()

@@ -10,7 +10,7 @@
 <form action="{% url 'supplier-update' pk=object.pk %}" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
 
-  {% comment %} {{ form }} {% endcomment %}
+  {% include 'base/partials/form-errors.html' %}
 
   <div class="create-form-inputs">
     {% include 'base/partials/update-input-field.html' with f_title='Supplier name' f_type='text' f_id='id_name' f_name='name' f_value=form.name.value %}

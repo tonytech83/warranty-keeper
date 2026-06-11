@@ -1,7 +1,7 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.static import serve
 
-from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
@@ -11,4 +11,12 @@ urlpatterns = [
     path('suppliers/', include('warranty_keeper.suppliers.urls')),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Serve user-uploaded media (invoices, logos). Done explicitly so it also works
+# under DEBUG=False / Gunicorn in Docker, which is fine for a single-user app.
+urlpatterns += [
+    re_path(
+        r'^media/(?P<path>.*)$',
+        serve,
+        {'document_root': settings.MEDIA_ROOT},
+    ),
+]

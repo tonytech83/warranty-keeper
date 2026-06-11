@@ -1,17 +1,112 @@
-{% extends "base/base.html" %} {% block main_content %}
-
-<div class="top-btns">
-  <div class="empty-top-left-btn">EMPTY-TOP-LEFT-BTN</div>
-  <div class="empty-top-right-btn">EMPTY-TOP-RIGHT-BTN</div>
-</div>
+{% extends "base/base.html" %} {% load static %} {% block main_content %}
 
 <div class="dashboard">
-  <h1>DASHBOARD</h1>
+    <!-- KPI cards -->
+    <div class="kpi-grid">
+        <div class="kpi-card kpi-neutral">
+            <span class="kpi-value">{{ total_warranties }}</span>
+            <span class="kpi-label">Warranties</span>
+        </div>
+        <div class="kpi-card kpi-active">
+            <span class="kpi-value">{{ active_count }}</span>
+            <span class="kpi-label">Active</span>
+        </div>
+        <div class="kpi-card kpi-warn">
+            <span class="kpi-value">{{ expiring_30_count }}</span>
+            <span class="kpi-label">Expiring ≤30 days</span>
+        </div>
+        <div class="kpi-card kpi-danger">
+            <span class="kpi-value">{{ expired_count }}</span>
+            <span class="kpi-label">Expired</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-value">{{ total_suppliers }}</span>
+            <span class="kpi-label">Suppliers</span>
+        </div>
+        <div class="kpi-card kpi-accent">
+            <span class="kpi-value"
+                >{{ CURRENCY }}{{ total_spend|floatformat:2 }}</span
+            >
+            <span class="kpi-label">Total value</span>
+        </div>
+    </div>
+
+    <!-- Alerts + recent activity -->
+    <div class="dash-columns">
+        <section class="dash-panel">
+            <h2 class="panel-title">Expiring soon</h2>
+            {% if expiring_soon %}
+            <ul class="alert-list">
+                {% for w in expiring_soon %}
+                <li
+                    class="alert-item {% if w.days_before_expiration <= 30 %}urgent {% elif w.days_before_expiration <= 60 %}warn {% else %}ok{% endif %}"
+                >
+                    <a
+                        href="{% url 'warranty-details' pk=w.pk %}"
+                        class="alert-name"
+                        >{{ w.item_name }}</a
+                    >
+                    <span class="alert-meta"
+                        >{{ w.warranty_expiration_date|date:"d/m/Y" }}</span
+                    >
+                    <span class="alert-days"
+                        >{{ w.days_before_expiration }} days</span
+                    >
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="panel-empty">Nothing expiring in the next 90 days. 🎉</p>
+            {% endif %}
+        </section>
+
+        <section class="dash-panel">
+            <h2 class="panel-title">Recently added</h2>
+            {% if recent %}
+            <ul class="recent-list">
+                {% for w in recent %}
+                <li class="recent-item">
+                    <a
+                        href="{% url 'warranty-details' pk=w.pk %}"
+                        class="alert-name"
+                        >{{ w.item_name }}</a
+                    >
+                    <span class="alert-meta">{{ w.supplier|default:"—" }}</span>
+                    <span class="alert-meta"
+                        >{{ w.created_at|date:"d/m/Y" }}</span
+                    >
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="panel-empty">
+                No warranties yet.
+                <a href="{% url 'warranty-create' %}">Add one</a>.
+            </p>
+            {% endif %}
+        </section>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-grid">
+        <section class="dash-panel chart-panel">
+            <h2 class="panel-title">Status</h2>
+            <div class="chart-box"><canvas id="statusChart"></canvas></div>
+        </section>
+        <section class="dash-panel chart-panel">
+            <h2 class="panel-title">Warranties by supplier</h2>
+            <div class="chart-box"><canvas id="supplierChart"></canvas></div>
+        </section>
+        <section class="dash-panel chart-panel chart-wide">
+            <h2 class="panel-title">Expirations — next 12 months</h2>
+            <div class="chart-box"><canvas id="timelineChart"></canvas></div>
+        </section>
+    </div>
 </div>
 
-<div class="bottom-btns">
-  <div class="empty-bottom-left-btn">EMPTY-BOTTOM-LEFT-BTN</div>
-  <div class="empty-bottom-right-btn">EMPTY-BOTTOM-RIGHT-BTN</div>
-</div>
+{{ chart_data|json_script:"chart-data" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{% static 'js/dashboard.js' %}?v=1"></script>
 
 {% endblock %}

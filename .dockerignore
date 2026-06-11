@@ -6,4 +6,9 @@ __pycache__/
 *.git
 .github/
 .gitignore
+.env
+db.sqlite3
+data/
+mediafiles/
+static/
 warranty-keeper.jpeg

@@ -1,17 +1,24 @@
 from pathlib import Path
-from decouple import config
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-@!(v&&*@wz%tb8u66r0#7hj&)sba64+y6#oto&9%h&%q(5-v&&"
+SECRET_KEY = config(
+    "SECRET_KEY",
+    default="django-insecure-@!(v&&*@wz%tb8u66r0#7hj&)sba64+y6#oto&9%h&%q(5-v&&",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", default=True, cast=bool)
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"] + [f"192.168.88.{i}" for i in range(256)]
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS",
+    default="localhost,127.0.0.1,[::1]",
+    cast=Csv(),
+)
 
 
 # Application definition
@@ -54,6 +61,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "warranty_keeper.common.context_processors.app_settings",
             ],
         },
     },
@@ -62,21 +70,12 @@ TEMPLATES = [
 WSGI_APPLICATION = "warranty_keeper.wsgi.application"
 
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
+# SQLite database. In Docker, SQLITE_PATH points to a mounted volume
+# (e.g. /app/data/db.sqlite3) so the data survives container restarts.
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "HOST": config("DB_HOST"),
-        "PORT": config("DB_PORT"),
-        "USER": config("DB_USER"),
-        "NAME": config("DB_NAME"),
-        "PASSWORD": config("DB_PASSWORD"), 
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": config("SQLITE_PATH", default=BASE_DIR / "db.sqlite3"),
     }
 }
 
@@ -107,10 +106,16 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Compress (gzip/brotli) but do NOT hash filenames. Hashing + nested CSS
+# @import rewriting is a common source of "styles missing in the container"
+# bugs; a single, un-hashed stylesheet is far more robust here.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 STATICFILES_DIRS = ( BASE_DIR / "staticfiles",)
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "mediafiles"
+MEDIA_ROOT = config("MEDIA_ROOT", default=BASE_DIR / "mediafiles")
+
+# Currency symbol shown next to prices across the app.
+CURRENCY = config("CURRENCY", default="€")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
