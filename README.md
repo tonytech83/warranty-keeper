@@ -37,17 +37,49 @@ docker compose up --build
 ```
 Then open http://localhost:8000. Migrations run automatically on startup.
 
-The SQLite database and uploaded media are **bind-mounted to real files on the host**:
+**Persistence (bind mounts → real host files)**
+
+The database and uploaded media are bind-mounted to host folders, so backups are
+just file copies. The host paths default to `./data` and `./mediafiles`, and can be
+overridden with `DATA_DIR` / `MEDIA_DIR` in `.env`:
 
 ```
-./data/db.sqlite3     # your database
-./mediafiles/         # uploaded invoices & supplier logos
+./data/db.sqlite3   # your database  (or $DATA_DIR/db.sqlite3)
+./mediafiles/       # invoices & supplier logos  (or $MEDIA_DIR)
 ```
 
-Because these live on the host (not inside the container), they survive
-`docker compose down` and even `docker rm`. If a container is killed or rebuilt,
-the next one simply reopens the same `./data/db.sqlite3`. To back up, just copy that
-file. To start fresh, stop the app and delete `./data/db.sqlite3`.
+They survive `docker compose down` and `docker rm`, so a killed or rebuilt
+container reopens the same database. To back up, copy `db.sqlite3`. To start fresh,
+stop the app and delete it.
+
+#### Storing the DB on a NAS / SMB share
+
+You can point `DATA_DIR` at a network share for easy backups — **but SQLite needs
+POSIX byte-range locks, which SMB/CIFS does not provide.** A bind mount onto a
+plain CIFS mount fails on the first migrate with:
+
+```
+django.db.utils.OperationalError: database is locked
+```
+
+Fix: mount the share with byte-range locking **disabled** (`nobrl`). This is safe
+here because the app runs a single writer (one Gunicorn worker). Example
+`/etc/fstab` entry on the Docker host:
+
+```
+//OMV-HOST/share  /mnt/omv-smb-share  cifs  credentials=/etc/smb-creds,uid=1000,gid=1000,nobrl,_netdev  0  0
+```
+
+Then remount and restart:
+
+```bash
+sudo mount -o remount /mnt/omv-smb-share   # or: sudo umount … && sudo mount …
+docker compose up -d --build
+```
+
+(NFS shares need their server exporting locking, or the equivalent `nolock` client
+option.) The app uses SQLite's default rollback journal — **do not** enable WAL mode
+on a network share, as WAL relies on shared memory that network filesystems lack.
 
 ### Run locally
 ```bash

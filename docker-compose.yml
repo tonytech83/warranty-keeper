@@ -12,10 +12,20 @@ services:
       - CURRENCY=${CURRENCY:-€}
       - SQLITE_PATH=/app/data/db.sqlite3
       - MEDIA_ROOT=/app/mediafiles
+      # Disable SQLite file locking so the DB works on SMB/CIFS/NFS shares,
+      # which don't support POSIX locks. Safe with a single Gunicorn worker.
+      # Set to 0 if the DB lives on a normal local filesystem.
+      - SQLITE_NOLOCK=${SQLITE_NOLOCK:-1}
     volumes:
-      # Bind mounts: the SQLite database and uploaded media live as real files
-      # on the host (./data and ./mediafiles). They will survive `docker rm`,
-      # so a new container reopens the same database.
-      - ./data:/app/data
-      - ./mediafiles:/app/mediafiles
+      # Bind mounts to real host folders (easy backup). Override the host paths
+      # with DATA_DIR / MEDIA_DIR in .env to point at a NAS/share, e.g.
+      #   DATA_DIR=/mnt/omv-smb-share/docker-volumes/warranty-keeper/data
+      #   MEDIA_DIR=/mnt/omv-smb-share/docker-volumes/warranty-keeper/media
+      #
+      # IMPORTANT — network shares (SMB/CIFS, NFS): SQLite needs POSIX
+      # byte-range locks. CIFS rejects them, causing "database is locked".
+      # Mount the share with byte-range locking disabled — for CIFS add `nobrl`
+      # to the mount options (see README "Storing the DB on a NAS / SMB share").
+      - ${DATA_DIR:-./data}:/app/data
+      - ${MEDIA_DIR:-./mediafiles}:/app/mediafiles
     restart: unless-stopped
