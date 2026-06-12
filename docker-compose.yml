@@ -3,7 +3,7 @@ services:
     build: .
     container_name: warranty_keeper
     ports:
-      - "8000:8000"
+      - "8101:8000" # Change the port
     environment:
       # Values are read from a local .env file if present (see .env.example).
       - SECRET_KEY=${SECRET_KEY:-django-insecure-change-me-in-production}
@@ -16,16 +16,9 @@ services:
       # which don't support POSIX locks. Safe with a single Gunicorn worker.
       # Set to 0 if the DB lives on a normal local filesystem.
       - SQLITE_NOLOCK=${SQLITE_NOLOCK:-1}
+      - ALLOWED_HOSTS=*
     volumes:
-      # Bind mounts to real host folders (easy backup). Override the host paths
-      # with DATA_DIR / MEDIA_DIR in .env to point at a NAS/share, e.g.
-      #   DATA_DIR=/mnt/omv-smb-share/docker-volumes/warranty-keeper/data
-      #   MEDIA_DIR=/mnt/omv-smb-share/docker-volumes/warranty-keeper/media
-      #
-      # IMPORTANT — network shares (SMB/CIFS, NFS): SQLite needs POSIX
-      # byte-range locks. CIFS rejects them, causing "database is locked".
-      # Mount the share with byte-range locking disabled — for CIFS add `nobrl`
-      # to the mount options (see README "Storing the DB on a NAS / SMB share").
+      # Override the host paths with DATA_DIR / MEDIA_DIR in .env to point at a NAS/share, e.g.
       - ${DATA_DIR:-./data}:/app/data
       - ${MEDIA_DIR:-./mediafiles}:/app/mediafiles
     restart: unless-stopped
