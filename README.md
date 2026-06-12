@@ -41,7 +41,7 @@ Then open http://localhost:8000. Migrations run automatically on startup.
 
 The database and uploaded media are bind-mounted to host folders, so backups are
 just file copies. The host paths default to `./data` and `./mediafiles`, and can be
-overridden with `DATA_DIR` / `MEDIA_DIR` in `.env`:
+overridden with `DATA_DIR` / `MEDIA_DIR` in `.env` file:
 
 ```
 ./data/db.sqlite3   # your database  (or $DATA_DIR/db.sqlite3)
@@ -54,32 +54,10 @@ stop the app and delete it.
 
 #### Storing the DB on a NAS / SMB share
 
-You can point `DATA_DIR` at a network share for easy backups — **but SQLite needs
-POSIX byte-range locks, which SMB/CIFS does not provide.** A bind mount onto a
-plain CIFS mount fails on the first migrate with:
-
+You can point `DATA_DIR` at a network share for easy backups — **but SQLite needs POSIX byte-range locks, which SMB/CIFS does not provide.** For this reason disable SQLite file locking so the DB works on SMB/CIFS/NFS shares,which don't support POSIX locks. Safe with a single Gunicorn worker. If DB lives on a normal local filesystem, open `docker-compose.yml` and set to 0.
 ```
-django.db.utils.OperationalError: database is locked
+- SQLITE_NOLOCK=${SQLITE_NOLOCK:-1}
 ```
-
-Fix: mount the share with byte-range locking **disabled** (`nobrl`). This is safe
-here because the app runs a single writer (one Gunicorn worker). Example
-`/etc/fstab` entry on the Docker host:
-
-```
-//OMV-HOST/share  /mnt/omv-smb-share  cifs  credentials=/etc/smb-creds,uid=1000,gid=1000,nobrl,_netdev  0  0
-```
-
-Then remount and restart:
-
-```bash
-sudo mount -o remount /mnt/omv-smb-share   # or: sudo umount … && sudo mount …
-docker compose up -d --build
-```
-
-(NFS shares need their server exporting locking, or the equivalent `nolock` client
-option.) The app uses SQLite's default rollback journal — **do not** enable WAL mode
-on a network share, as WAL relies on shared memory that network filesystems lack.
 
 ### Run locally
 ```bash
