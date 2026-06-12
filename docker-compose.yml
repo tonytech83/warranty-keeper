@@ -3,7 +3,7 @@ services:
     build: .
     container_name: warranty_keeper
     ports:
-      - "8101:8000" # Change the port
+      - "8181:8000" # Change the port
     environment:
       # Values are read from a local .env file if present (see .env.example).
       - SECRET_KEY=${SECRET_KEY:-django-insecure-change-me-in-production}
