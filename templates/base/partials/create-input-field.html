@@ -10,6 +10,6 @@
         {% endfor %}
     </select>
     {% else %}
-    <input type="{{ f_type }}" id="{{ f_id }}" name="{{ f_name }}" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="{{ f_placeholder }}"{% if f_type != "file" and f_value is not None %} value="{{ f_value|default:'' }}"{% endif %}>
+    <input type="{{ f_type }}" id="{{ f_id }}" name="{{ f_name }}" class="form-control {{ f_class }}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="{{ f_placeholder }}"{% if f_type == "number" %} step="0.01"{% endif %}{% if f_type != "file" and f_value is not None %} value="{{ f_value|default:'' }}"{% endif %}>
     {% endif %}
 </div>

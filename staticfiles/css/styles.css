@@ -358,6 +358,12 @@ nav {
     border: 1px solid var(--border);
 }
 
+/* Center the supplier logo against the (taller) details table */
+.supplier-details-container .logo {
+    align-self: center;
+    margin: 0 auto;
+}
+
 .warranty-details-table,
 .supplier-details-table {
     flex: 1;
