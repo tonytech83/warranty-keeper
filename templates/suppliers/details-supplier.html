@@ -21,6 +21,50 @@
   </table>
 </div>
 
+{% if active_warranties or expired_warranties %}
+<div class="supplier-warranties">
+  <details class="warranty-group" open>
+    <summary class="warranty-group-title">
+      <span>Active warranties</span>
+      <span class="warranty-count">{{ active_warranties|length }}</span>
+    </summary>
+    {% if active_warranties %}
+    <ul class="alert-list">
+      {% for w in active_warranties %}
+      <li class="alert-item {% if w.days_before_expiration <= 30 %}urgent{% elif w.days_before_expiration <= 60 %}warn{% else %}ok{% endif %}">
+        <a href="{% url 'warranty-details' pk=w.pk %}" class="alert-name">{{ w.item_name }}</a>
+        <span class="alert-meta">{{ w.warranty_expiration_date|date:"d/m/Y" }}</span>
+        <span class="alert-days">{{ w.days_before_expiration }} days</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="panel-empty">No active warranties.</p>
+    {% endif %}
+  </details>
+
+  <details class="warranty-group">
+    <summary class="warranty-group-title">
+      <span>Expired warranties</span>
+      <span class="warranty-count">{{ expired_warranties|length }}</span>
+    </summary>
+    {% if expired_warranties %}
+    <ul class="alert-list">
+      {% for w in expired_warranties %}
+      <li class="alert-item urgent">
+        <a href="{% url 'warranty-details' pk=w.pk %}" class="alert-name">{{ w.item_name }}</a>
+        <span class="alert-meta">{{ w.warranty_expiration_date|date:"d/m/Y" }}</span>
+        <span class="alert-days">Expired</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="panel-empty">No expired warranties.</p>
+    {% endif %}
+  </details>
+</div>
+{% endif %}
+
 <div class="bottom-btns">
   <div class="action-bottom-left-btn">
     <a href="{% url 'supplier-delete' pk=object.pk %}">Delete</a>

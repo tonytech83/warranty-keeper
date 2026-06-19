@@ -397,6 +397,75 @@ nav {
     font-weight: 500;
 }
 
+/* --- Supplier → warranties (expandable groups) ----------------- */
+.supplier-warranties {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.warranty-group {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0 18px;
+}
+
+/* The clickable header (native <summary>) */
+.warranty-group-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 0;
+    cursor: pointer;
+    user-select: none;
+    list-style: none; /* hide the default disclosure triangle (Firefox) */
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+.warranty-group-title::-webkit-details-marker {
+    display: none; /* hide the default disclosure triangle (WebKit) */
+}
+.warranty-group-title::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid var(--text-faint);
+    border-bottom: 2px solid var(--text-faint);
+    transform: rotate(45deg);
+    transition: transform 0.15s;
+}
+.warranty-group[open] .warranty-group-title::after {
+    transform: rotate(-135deg);
+}
+.warranty-group[open] .warranty-group-title {
+    border-bottom: 1px solid var(--border);
+}
+
+.warranty-count {
+    margin-left: auto;
+    min-width: 22px;
+    padding: 1px 8px;
+    text-align: center;
+    border-radius: 20px;
+    background: var(--bg-3);
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.warranty-group .alert-list {
+    padding: 6px 0 10px;
+}
+.warranty-group .panel-empty {
+    padding: 14px 0;
+}
+
 /* ---------------------------------- Suppliers grid ------------- */
 .supplier-list {
     display: grid;
