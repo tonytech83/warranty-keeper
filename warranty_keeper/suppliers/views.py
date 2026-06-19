@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 
 
 from warranty_keeper.suppliers.models import Supplier
+from warranty_keeper.warranties.models import Warranty
 from .forms import SupplierCreateForm, SupplierUpdateForm
 
 
@@ -18,6 +19,23 @@ class SupplierListView(views.ListView):
 class SupplierDetailsView(views.DetailView):
     model = Supplier
     template_name = "suppliers/details-supplier.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        warranties = Warranty.objects.filter(
+            supplier=self.object, deleted=False
+        )
+        # `is_expired` is a Python property, so split/sort in Python.
+        context["active_warranties"] = sorted(
+            (w for w in warranties if not w.is_expired),
+            key=lambda w: w.days_before_expiration,
+        )
+        context["expired_warranties"] = sorted(
+            (w for w in warranties if w.is_expired),
+            key=lambda w: w.warranty_expiration_date,
+            reverse=True,
+        )
+        return context
 
 
 class SupplierCreateView(views.CreateView):
