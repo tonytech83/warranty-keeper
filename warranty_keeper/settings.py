@@ -70,31 +70,21 @@ TEMPLATES = [
 WSGI_APPLICATION = "warranty_keeper.wsgi.application"
 
 
-# SQLite database. In Docker, SQLITE_PATH points to a mounted volume
-# (e.g. /app/data/db.sqlite3) so the data survives container restarts.
-SQLITE_PATH = config("SQLITE_PATH", default=str(BASE_DIR / "db.sqlite3"))
-
-# Network shares (SMB/CIFS, NFS) don't provide the POSIX byte-range locks
-# SQLite needs, so it raises "database is locked". SQLITE_NOLOCK=1 opens the
-# database with locking disabled (the `nolock=1` URI flag), which makes SQLite
-# work on such shares. Safe ONLY for a single writer (this app runs one
-# Gunicorn worker); never enable it if several processes write the same file.
-SQLITE_NOLOCK = config("SQLITE_NOLOCK", default=False, cast=bool)
-
-# `timeout` is SQLite's busy-timeout (seconds): wait for a lock instead of
-# failing instantly with "database is locked".
-_sqlite_options = {"timeout": 20}
-if SQLITE_NOLOCK:
-    _sqlite_name = f"file:{SQLITE_PATH}?nolock=1"
-    _sqlite_options["uri"] = True
-else:
-    _sqlite_name = SQLITE_PATH
-
+# MariaDB/MySQL database. The database runs in its own container (the `db`
+# service in docker-compose.yml); the app connects to it over the network via
+# DB_HOST/DB_PORT. All values come from the environment so the same image works
+# in dev and production.
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": _sqlite_name,
-        "OPTIONS": _sqlite_options,
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": config("DB_NAME", default="warranty_keeper"),
+        "USER": config("DB_USER", default="warranty"),
+        "PASSWORD": config("DB_PASSWORD", default=""),
+        "HOST": config("DB_HOST", default="127.0.0.1"),
+        "PORT": config("DB_PORT", default="3306"),
+        "OPTIONS": {
+            "charset": "utf8mb4",
+        },
     }
 }
 

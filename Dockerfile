@@ -4,8 +4,15 @@ FROM python:3.10-slim
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
-# Set the working directory
 WORKDIR /app
+
+# System packages needed to build/run mysqlclient
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        default-libmysqlclient-dev \
+        pkg-config \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy and install dependencies
 COPY requirements.txt .
@@ -17,8 +24,8 @@ COPY . .
 # Collect static files (served by WhiteNoise)
 RUN python manage.py collectstatic --noinput
 
-# Directory for the SQLite database (mounted as a volume in compose)
-RUN mkdir -p /app/data /app/mediafiles
+# Directory for uploaded media (mounted as a volume in compose)
+RUN mkdir -p /app/mediafiles
 
 # Expose the port Gunicorn will bind to
 EXPOSE 8000

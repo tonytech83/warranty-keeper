@@ -18,7 +18,7 @@ what's expiring from a single dashboard.
 - **Warranties** — create / view / edit / soft-delete, with item, purchase date, period, price,
   description, invoice image and supplier.
 - **Suppliers** — create / view / edit / soft-delete, with logo, email, phone and website.
-- **SQLite** storage — zero-config, file-based, easy to back up (just copy the `.db` file).
+- **MariaDB** storage — runs in its own container, with data persisted in a named Docker volume.
 
 ### Configuration
 Copy `.env.example` to `.env` and adjust as needed:
@@ -29,37 +29,38 @@ Copy `.env.example` to `.env` and adjust as needed:
 | `DEBUG`         | `True`                        | Set to `False` when exposing the app.         |
 | `ALLOWED_HOSTS` | `localhost,127.0.0.1,[::1]`   | Comma-separated list of allowed hosts.        |
 | `CURRENCY`      | `€`                           | Currency symbol shown next to prices.         |
-| `SQLITE_PATH`   | `./db.sqlite3`                | Path to the SQLite database file.             |
+| `DB_NAME`       | `warranty_keeper`             | Database name.                                |
+| `DB_USER`       | `warranty`                    | Database user.                                |
+| `DB_PASSWORD`   | —                             | Database user password — **set your own**.    |
+| `DB_ROOT_PASSWORD` | —                          | MariaDB root password (container admin).       |
+| `DB_HOST`       | `db` (Docker) / `127.0.0.1`   | Database host.                                |
+| `DB_PORT`       | `3306`                        | Database port.                                |
 
 ### Run with Docker (recommended)
 ```bash
 docker compose up --build
 ```
-Then open http://localhost:8000. Migrations run automatically on startup.
+This starts two containers: `db` (MariaDB) and `web` (the Django app). The `web`
+container waits for the database to become healthy, then runs migrations
+automatically before serving. Open http://localhost:8181.
 
-**Persistence (bind mounts → real host files)**
+**Persistence**
 
-The database and uploaded media are bind-mounted to host folders, so backups are
-just file copies. The host paths default to `./data` and `./mediafiles`, and can be
-overridden with `DATA_DIR` / `MEDIA_DIR` in `.env` file:
+- **Database** — stored in the `db_data` named Docker volume. It survives
+  `docker compose down` and container rebuilds. To start completely fresh, remove
+  the volume: `docker compose down -v`.
+- **Uploaded media** (invoices & supplier logos) — bind-mounted to `./mediafiles`,
+  overridable with `MEDIA_DIR` in `.env`. Point it at a NAS/share for easy backups.
 
-```
-./data/db.sqlite3   # your database  (or $DATA_DIR/db.sqlite3)
-./mediafiles/       # invoices & supplier logos  (or $MEDIA_DIR)
-```
-
-They survive `docker compose down` and `docker rm`, so a killed or rebuilt
-container reopens the same database. To back up, copy `db.sqlite3`. To start fresh,
-stop the app and delete it.
-
-#### Storing the DB on a NAS / SMB share
-
-You can point `DATA_DIR` at a network share for easy backups — **but SQLite needs POSIX byte-range locks, which SMB/CIFS does not provide.** For this reason disable SQLite file locking so the DB works on SMB/CIFS/NFS shares,which don't support POSIX locks. Safe with a single Gunicorn worker. If DB lives on a normal local filesystem, open `docker-compose.yml` and set to 0.
-```
-- SQLITE_NOLOCK=${SQLITE_NOLOCK:-1}
+To back up the database, use `mysqldump` against the `db` container, e.g.:
+```bash
+docker compose exec db sh -c \
+  'mariadb-dump -u"$MARIADB_USER" -p"$MARIADB_PASSWORD" "$MARIADB_DATABASE"' > backup.sql
 ```
 
 ### Run locally
+Running outside Docker requires a MariaDB/MySQL server. Create the database and
+user, then set `DB_*` in `.env` (use `DB_HOST=127.0.0.1`):
 ```bash
 python -m venv venv
 # Windows: venv\Scripts\activate   |   Linux/macOS: source venv/bin/activate
