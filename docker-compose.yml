@@ -1,24 +1,48 @@
 services:
+  db:
+    image: mariadb:11
+    container_name: warranty-db
+    environment:
+      - MARIADB_DATABASE=${DB_NAME:-warranty-keeper}
+      - MARIADB_USER=${DB_USER:-warranty}
+      - MARIADB_PASSWORD=${DB_PASSWORD:-change-me-db-password}
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-change-me-root-password}
+    volumes:
+      # Bind-mount MariaDB's data directory to a host folder so the database
+      # survives container restarts/rebuilds (override the path with DATA_DIR).
+      - ${DATA_DIR:-./data}:/var/lib/mysql
+    healthcheck:
+      # web waits for this to pass before starting (see depends_on below).
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
   web:
     build: .
-    container_name: warranty_keeper
+    container_name: warranty-keeper
     ports:
-      - "8181:8000" # Change the port
+      - "8181:8000" # Change the port if needed
     environment:
       # Values are read from a local .env file if present (see .env.example).
       - SECRET_KEY=${SECRET_KEY:-django-insecure-change-me-in-production}
       - DEBUG=${DEBUG:-False}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,[::1]}
       - CURRENCY=${CURRENCY:-€}
-      - SQLITE_PATH=/app/data/db.sqlite3
       - MEDIA_ROOT=/app/mediafiles
-      # Disable SQLite file locking so the DB works on SMB/CIFS/NFS shares,
-      # which don't support POSIX locks. Safe with a single Gunicorn worker.
-      # Set to 0 if the DB lives on a normal local filesystem.
-      - SQLITE_NOLOCK=${SQLITE_NOLOCK:-1}
+      # Database connection — points at the `db` service above.
+      - DB_NAME=${DB_NAME:-warranty-keeper}
+      - DB_USER=${DB_USER:-warranty}
+      - DB_PASSWORD=${DB_PASSWORD:-change-me-db-password}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-3306}
       - ALLOWED_HOSTS=*
     volumes:
-      # Override the host paths with DATA_DIR / MEDIA_DIR in .env to point at a NAS/share, e.g.
-      - ${DATA_DIR:-./data}:/app/data
+      # Override the host path with MEDIA_DIR in .env to point at a NAS/share, e.g.
       - ${MEDIA_DIR:-./mediafiles}:/app/mediafiles
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
