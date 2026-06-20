@@ -18,6 +18,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    networks:
+      - warranty_net
     restart: unless-stopped
 
   web:
@@ -45,4 +47,11 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - warranty_net
     restart: unless-stopped
+
+# Bridge network shared by both services.
+networks:
+  warranty_net:
+    driver: bridge
