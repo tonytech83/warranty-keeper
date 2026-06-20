@@ -9,6 +9,33 @@ jobs:
   Build_and_Run:
     runs-on: ubuntu-latest
 
+    # MariaDB service container the app connects to during CI. Reachable on
+    # 127.0.0.1:3306 of the runner. The job waits (via health checks) until it
+    # is ready before running steps.
+    services:
+      db:
+        image: mariadb:11
+        env:
+          MARIADB_DATABASE: warranty_keeper
+          MARIADB_USER: warranty
+          MARIADB_PASSWORD: warranty
+          MARIADB_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    # Connection settings shared by every step (point Django at the service above).
+    env:
+      DB_NAME: warranty_keeper
+      DB_USER: warranty
+      DB_PASSWORD: warranty
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -17,6 +44,12 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "3.12"
+
+    - name: Install system dependencies (mysqlclient build deps)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends \
+          build-essential default-libmysqlclient-dev pkg-config
 
     - name: Install dependencies
       run: |
