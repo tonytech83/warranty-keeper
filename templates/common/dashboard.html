@@ -3,26 +3,26 @@
 <div class="dashboard">
     <!-- KPI cards -->
     <div class="kpi-grid">
-        <div class="kpi-card kpi-neutral">
+        <a class="kpi-card kpi-neutral" href="{% url 'warranties-list' %}">
             <span class="kpi-value">{{ total_warranties }}</span>
             <span class="kpi-label">Warranties</span>
-        </div>
-        <div class="kpi-card kpi-active">
+        </a>
+        <a class="kpi-card kpi-active" href="{% url 'warranties-list' %}?status=active">
             <span class="kpi-value">{{ active_count }}</span>
             <span class="kpi-label">Active</span>
-        </div>
-        <div class="kpi-card kpi-warn">
+        </a>
+        <a class="kpi-card kpi-warn" href="{% url 'warranties-list' %}?status=expiring">
             <span class="kpi-value">{{ expiring_30_count }}</span>
             <span class="kpi-label">Expiring ≤30 days</span>
-        </div>
-        <div class="kpi-card kpi-danger">
+        </a>
+        <a class="kpi-card kpi-danger" href="{% url 'warranties-list' %}?status=expired">
             <span class="kpi-value">{{ expired_count }}</span>
             <span class="kpi-label">Expired</span>
-        </div>
-        <div class="kpi-card">
+        </a>
+        <a class="kpi-card" href="{% url 'suppliers-list' %}">
             <span class="kpi-value">{{ total_suppliers }}</span>
             <span class="kpi-label">Suppliers</span>
-        </div>
+        </a>
         <div class="kpi-card kpi-accent">
             <span class="kpi-value"
                 >{{ CURRENCY }}{{ total_spend|floatformat:2 }}</span
@@ -98,8 +98,8 @@
             <div class="chart-box"><canvas id="supplierChart"></canvas></div>
         </section>
         <section class="dash-panel chart-panel chart-wide">
-            <h2 class="panel-title">Expirations — next 12 months</h2>
-            <div class="chart-box"><canvas id="timelineChart"></canvas></div>
+            <h2 class="panel-title">Total spend per year</h2>
+            <div class="chart-box"><canvas id="spendYearChart"></canvas></div>
         </section>
     </div>
 </div>
@@ -107,6 +107,6 @@
 {{ chart_data|json_script:"chart-data" }}
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="{% static 'js/dashboard.js' %}?v=1"></script>
+<script src="{% static 'js/dashboard.js' %}?v=2"></script>
 
 {% endblock %}

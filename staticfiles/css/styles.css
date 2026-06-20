@@ -654,6 +654,36 @@ nav {
     color: var(--accent);
 }
 
+/* KPI cards that link to a filtered list / page. */
+a.kpi-card {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+}
+a.kpi-card:hover {
+    border-color: var(--text-faint);
+    transform: translateY(-1px);
+}
+
+/* Active-filter heading on the warranties list. */
+.list-filter {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 4px 0 12px;
+}
+.list-filter-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+.list-filter-clear {
+    font-size: 13px;
+    white-space: nowrap;
+}
+
 /* Panels */
 .dash-columns {
     display: grid;

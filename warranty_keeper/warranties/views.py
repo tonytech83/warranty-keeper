@@ -10,8 +10,33 @@ class WarrantiesListView(views.ListView):
     model = Warranty
     template_name = "warranties/warranties-list.html"
 
+    # ?status= values -> heading shown on the list page. Filtering happens in
+    # Python because expiry is a computed property, not a database column.
+    STATUS_LABELS = {
+        "active": "Active warranties",
+        "expiring": "Warranties expiring in ≤30 days",
+        "expired": "Expired warranties",
+    }
+
     def get_queryset(self):
-        return Warranty.objects.filter(deleted=False)
+        warranties = Warranty.objects.filter(deleted=False).select_related("supplier")
+        status = self.request.GET.get("status")
+        if status == "active":
+            return [w for w in warranties if not w.is_expired]
+        if status == "expired":
+            return [w for w in warranties if w.is_expired]
+        if status == "expiring":
+            return [
+                w
+                for w in warranties
+                if not w.is_expired and w.days_before_expiration <= 30
+            ]
+        return list(warranties)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter_label"] = self.STATUS_LABELS.get(self.request.GET.get("status"))
+        return context
 
 
 class WarrantyDetailsView(views.DetailView):

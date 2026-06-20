@@ -61,30 +61,38 @@
     },
   });
 
-  // Expirations over the next 12 months
-  new Chart(document.getElementById("timelineChart"), {
-    type: "line",
+  // Total spend per year (by purchase date)
+  var cur = d.spend_year.currency || "";
+  var money = function (v) {
+    return cur + Number(v).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+  new Chart(document.getElementById("spendYearChart"), {
+    type: "bar",
     data: {
-      labels: d.timeline.labels,
+      labels: d.spend_year.labels,
       datasets: [
         {
-          label: "Expiring",
-          data: d.timeline.data,
-          borderColor: c("--orange-color"),
-          backgroundColor: "rgba(247, 147, 26, 0.2)",
-          fill: true,
-          tension: 0.3,
-          pointRadius: 3,
+          label: "Spend",
+          data: d.spend_year.data,
+          backgroundColor: c("--orange-color"),
+          borderRadius: 4,
         },
       ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: function (ctx) { return money(ctx.parsed.y); } } },
+      },
       scales: {
         x: { grid: { color: grid } },
-        y: { grid: { color: grid }, ticks: { precision: 0 }, beginAtZero: true },
+        y: {
+          grid: { color: grid },
+          beginAtZero: true,
+          ticks: { callback: function (v) { return money(v); } },
+        },
       },
     },
   });

@@ -1,6 +1,6 @@
-from collections import OrderedDict
 from datetime import date
 
+from django.conf import settings
 from django.views import generic as views
 
 from warranty_keeper.suppliers.models import Supplier
@@ -40,16 +40,17 @@ class HomePageView(views.TemplateView):
             count_by_supplier, key=lambda n: count_by_supplier[n], reverse=True
         )
 
-        # Expirations over the next 12 months (active warranties only).
-        months = OrderedDict()
-        for i in range(12):
-            month = (today.month - 1 + i) % 12 + 1
-            year = today.year + (today.month - 1 + i) // 12
-            months[date(year, month, 1).strftime("%b %Y")] = 0
-        for w in active:
-            label = w.warranty_expiration_date.strftime("%b %Y")
-            if label in months:
-                months[label] += 1
+        # Total spend per purchase year. Covers every year from the earliest to
+        # the latest purchase, filling any in-between gap years with 0.
+        spend_by_year = {}
+        for w in warranties:
+            year = w.purchase_date.year
+            spend_by_year[year] = spend_by_year.get(year, 0) + (w.price or 0)
+        year_labels = (
+            list(range(min(spend_by_year), max(spend_by_year) + 1))
+            if spend_by_year
+            else []
+        )
 
         # Lists for the alert/activity panels.
         expiring_soon = sorted(
@@ -85,9 +86,10 @@ class HomePageView(views.TemplateView):
                             float(spend_by_supplier[n]) for n in supplier_labels
                         ],
                     },
-                    "timeline": {
-                        "labels": list(months.keys()),
-                        "data": list(months.values()),
+                    "spend_year": {
+                        "labels": [str(y) for y in year_labels],
+                        "data": [float(spend_by_year.get(y, 0)) for y in year_labels],
+                        "currency": settings.CURRENCY,
                     },
                 },
             }
