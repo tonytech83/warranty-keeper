@@ -17,13 +17,13 @@
 <div class="warranties">
   <table class="warranties-table">
     <tr>
-      <th class="first-left">Item</th>
-      <th>Purchase date</th>
-      <th>Period</th>
-      <th>Expiration date</th>
-      <th>Days left</th>
-      <th>Price</th>
-      <th>Supplier</th>
+      {% for col in columns %}
+      <th{% if forloop.first %} class="first-left"{% endif %}>
+        <a class="sort-link{% if col.active %} active{% endif %}" href="{{ col.href }}">
+          {{ col.label }}{% if col.arrow %} <span class="sort-arrow">{{ col.arrow }}</span>{% endif %}
+        </a>
+      </th>
+      {% endfor %}
     </tr>
 
     {% for warranty in object_list%}
