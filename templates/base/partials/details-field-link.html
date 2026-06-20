@@ -1,0 +1,10 @@
+<tr>
+  <td class="left">{{ p_title }}</td>
+  <td class="right">
+      {% if value %}
+        <a href="{{ value }}">{{ value }}</a>
+      {% else %}
+        Not set
+      {% endif %}
+  </td>
+</tr>

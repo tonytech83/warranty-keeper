@@ -5,7 +5,7 @@
   <div class="action-top-right-btn">
     <a href="{% url 'suppliers-list' %}">Back</a>
   </div>
-</div> 
+</div>
 
 
 <div class="supplier-details-container">
@@ -17,13 +17,22 @@
     {% include 'base/partials/details-field.html' with item=object p_title='Name' value=object.name %}
     {% include 'base/partials/details-field.html' with item=object p_title='Email' value=object.email %}
     {% include 'base/partials/details-field.html' with item=object p_title='Phone number' value=object.phone_number %}
-    {% include 'base/partials/details-field.html' with item=object p_title='Website' value=object.website %}
+    {% include 'base/partials/details-field-link.html' with item=object p_title='Website' value=object.website %}
   </table>
+</div>
+
+<div class="bottom-btns">
+  <div class="action-bottom-left-btn">
+    <a href="{% url 'supplier-delete' pk=object.pk %}">Delete</a>
+  </div>
+  <div class="action-bottom-right-btn">
+    <a href="{% url 'supplier-update' pk=object.pk %}">Edit</a>
+  </div>
 </div>
 
 {% if active_warranties or expired_warranties %}
 <div class="supplier-warranties">
-  <details class="warranty-group" open>
+  <details class="warranty-group">
     <summary class="warranty-group-title">
       <span>Active warranties</span>
       <span class="warranty-count">{{ active_warranties|length }}</span>
@@ -64,14 +73,5 @@
   </details>
 </div>
 {% endif %}
-
-<div class="bottom-btns">
-  <div class="action-bottom-left-btn">
-    <a href="{% url 'supplier-delete' pk=object.pk %}">Delete</a>
-  </div>
-  <div class="action-bottom-right-btn">
-    <a href="{% url 'supplier-update' pk=object.pk %}">Edit</a>
-  </div>
-</div>
 
 {% endblock %}
