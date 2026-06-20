@@ -5,6 +5,13 @@
   <div class="empty-top-right-btn">EMPTY-TOP-RIGHT-BTN</div>
 </div>
 
+{% if filter_label %}
+<div class="list-filter">
+  <h2 class="list-filter-title">{{ filter_label }}</h2>
+  <a class="list-filter-clear" href="{% url 'warranties-list' %}">Show all</a>
+</div>
+{% endif %}
+
 {% if object_list%}
 
 <div class="warranties">
