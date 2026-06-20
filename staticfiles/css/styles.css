@@ -358,6 +358,39 @@ nav {
     border: 1px solid var(--border);
 }
 
+/* A PDF invoice is previewed with <object>, which (unlike <img>) has no
+   intrinsic size, so give the wrapping link an explicit box. */
+.invoice-preview {
+    position: relative;
+    display: inline-block;
+    width: 300px;
+    height: 320px;
+    line-height: 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #fff;
+    overflow: hidden;            /* clip the PDF viewer's scrollbar */
+}
+.invoice-preview object {
+    /* Slightly wider than the box so the viewer's right-edge scrollbar is
+       clipped, and non-interactive so a click falls through to the link. */
+    width: calc(100% + 22px);
+    height: 100%;
+    border: none;
+    pointer-events: none;
+}
+
+/* Shown when the file isn't a previewable image/PDF (or the PDF can't render). */
+.invoice-file-fallback {
+    display: inline-block;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+}
+
 /* Center the supplier logo against the (taller) details table */
 .supplier-details-container .logo {
     align-self: center;

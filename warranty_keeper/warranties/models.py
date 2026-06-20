@@ -88,3 +88,19 @@ class Warranty(TimeStampedModel, SoftDeleteMixin, models.Model):
     def is_expired(self):
         """True when the warranty period has already ended."""
         return self.warranty_expiration_date < now().date()
+
+    # The invoice is a FileField, so it may hold an image OR a PDF. The detail
+    # template previews each differently (an <img> can't render a PDF).
+    IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".svg")
+
+    @property
+    def invoice_is_pdf(self):
+        """True when the uploaded invoice is a PDF."""
+        return bool(self.invoice_img) and self.invoice_img.name.lower().endswith(".pdf")
+
+    @property
+    def invoice_is_image(self):
+        """True when the uploaded invoice is a displayable image."""
+        return bool(self.invoice_img) and self.invoice_img.name.lower().endswith(
+            self.IMAGE_EXTENSIONS
+        )

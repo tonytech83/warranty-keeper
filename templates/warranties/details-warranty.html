@@ -13,9 +13,17 @@
 
 
 <div class="warranty-details-container">
-  {% if object.invoice_img %}
-  <img class="invoice_img" src="{{ object.invoice_img.url }}" alt="{{ warranty.name }}" />
-  {% endif%}
+  {% if object.invoice_is_image %}
+  <img class="invoice_img" src="{{ object.invoice_img.url }}" alt="{{ object.item_name }}" />
+  {% elif object.invoice_is_pdf %}
+  <a class="invoice-preview" href="{{ object.invoice_img.url }}" target="_blank" rel="noopener" title="Open invoice PDF in a new tab">
+    <object data="{{ object.invoice_img.url }}#toolbar=0&amp;navpanes=0&amp;scrollbar=0&amp;view=FitH" type="application/pdf">
+      <span class="invoice-file-fallback">📄 Open invoice (PDF)</span>
+    </object>
+  </a>
+  {% elif object.invoice_img %}
+  <a class="invoice-file-fallback" href="{{ object.invoice_img.url }}" target="_blank" rel="noopener">📄 Open invoice</a>
+  {% endif %}
 
   <table class="warranty-details-table">
     {% include 'base/partials/details-field.html' with supplier=object p_title='Item name' value=object.item_name %}
