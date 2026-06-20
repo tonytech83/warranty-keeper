@@ -46,11 +46,18 @@ automatically before serving. Open http://localhost:8181.
 
 **Persistence**
 
-- **Database** — stored in the `db_data` named Docker volume. It survives
-  `docker compose down` and container rebuilds. To start completely fresh, remove
-  the volume: `docker compose down -v`.
+- **Database** — stored in the Docker-managed named volume `db_data` on the
+  host's **local disk**. It survives `docker compose down` and container rebuilds.
+  To start completely fresh, remove the volume: `docker compose down -v`.
 - **Uploaded media** (invoices & supplier logos) — bind-mounted to `./mediafiles`,
-  overridable with `MEDIA_DIR` in `.env`. Point it at a NAS/share for easy backups.
+  overridable with `MEDIA_DIR` in `.env`. This one **can** point at a NAS/SMB
+  share for easy backups (media files don't need database-style file locking).
+
+> **Don't put the database on a network share.** A NAS/SMB/CIFS/NFS share does not
+> provide the POSIX ownership and locking a database server requires (`chown` is
+> ignored on CIFS), so MariaDB cannot run its data directory there — it would fail
+> to start with `Errcode: 13 "Permission denied"`. The DB therefore uses a local
+> named volume; back it up to your NAS with `mariadb-dump` (below) instead.
 
 To back up the database, use `mysqldump` against the `db` container, e.g.:
 ```bash

@@ -8,9 +8,9 @@ services:
       - MARIADB_PASSWORD=${DB_PASSWORD:-change-me-db-password}
       - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-change-me-root-password}
     volumes:
-      # Bind-mount MariaDB's data directory to a host folder so the database
-      # survives container restarts/rebuilds (override the path with DATA_DIR).
-      - ${DATA_DIR:-./data}:/var/lib/mysql
+      # MariaDB's data directory lives in a Docker-managed named volume on the
+      # host's LOCAL disk.
+      - db_data:/var/lib/mysql
     healthcheck:
       # web waits for this to pass before starting (see depends_on below).
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
@@ -55,3 +55,7 @@ services:
 networks:
   warranty_net:
     driver: bridge
+
+# Docker-managed volume for the MariaDB data (local disk).
+volumes:
+  db_data:
